@@ -55,6 +55,10 @@ if [ -L ${TARGET_SYSROOT}/lib${TARGET_BITWIDE}/libc.so.6 ];then
     TARGET_GLIBC_MAX_VERSION=$(basename $(readlink ${TARGET_SYSROOT}/lib${TARGET_BITWIDE}/libc.so.6) |grep -o 'libc-[0-9]\+\.[0-9]\+' | cut -d '-' -f2)
 elif [ -L ${TARGET_SYSROOT}/lib/libc.so.6 ];then
     TARGET_GLIBC_MAX_VERSION=$(basename $(readlink ${TARGET_SYSROOT}/lib/libc.so.6) |grep -o 'libc-[0-9]\+\.[0-9]\+' | cut -d '-' -f2)
+elif [ -f ${TARGET_SYSROOT}/lib${TARGET_BITWIDE}/libc.so.6 ];then
+    TARGET_GLIBC_MAX_VERSION=$(readelf -V ${TARGET_SYSROOT}/lib${TARGET_BITWIDE}/libc.so.6 | grep -o 'GLIBC_[0-9]\+\.[0-9]\+' | sort -V |tail -n 1 | cut -d _ -f 2)
+elif [ -f ${TARGET_SYSROOT}/lib/libc.so.6 ];then
+    TARGET_GLIBC_MAX_VERSION=$(readelf -V ${TARGET_SYSROOT}/lib/libc.so.6 | grep -o 'GLIBC_[0-9]\+\.[0-9]\+' | sort -V |tail -n 1 | cut -d _ -f 2)
 elif [ "${NATIVE_PLATFORM}" == "${TARGET_PLATFORM}" ] && [ "${NATIVE_VERSION}" == "${TARGET_VERSION}" ];then
 {
     if [ -L /usr/lib${TARGET_BITWIDE}/libc.so.6 ];then
