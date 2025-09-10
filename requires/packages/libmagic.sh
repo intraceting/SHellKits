@@ -91,17 +91,17 @@ if [ "deb" == "${KIT_NAME}" ];then
         exit $(CheckHavePackageFromKit "libmagic-dev")
     elif [ ${FLAG} -eq 2 ];then
     {
-        CFLAG="-I$(FindIncPath magic.h)"
+        INC_PATH="$(FindIncPath magic.h)"
         checkReturnCode
 
-        echo "${CFLAG}"
+        echo "-I${INC_PATH}"
     }
     elif [ ${FLAG} -eq 3 ];then
     {
-        LDFLAG="-L$(FindLibPath libmagic.so)"
+        LIB_PATH="$(FindLibPath magic)"
         checkReturnCode
 
-        echo "-lmagic ${LDFLAG}"
+        echo "-lmagic -L${LIB_PATH}"
     }
     elif [ ${FLAG} -eq 4 ];then
         echo "libmagic-dev"
@@ -115,17 +115,17 @@ elif [ "rpm" == "${KIT_NAME}" ];then
         exit $(CheckHavePackageFromKit "file-devel")
     elif [ ${FLAG} -eq 2 ];then
     {
-        CFLAG="-I$(FindIncPath magic.h)"
+        INC_PATH="$(FindIncPath magic.h)"
         checkReturnCode
 
-        echo "${CFLAG}"
+        echo "-I${INC_PATH}"
     }
     elif [ ${FLAG} -eq 3 ];then
     {
-        LDFLAG="-L$(FindLibPath libmagic.so)"
+        LIB_PATH="$(FindLibPath magic)"
         checkReturnCode
 
-        echo "-lmagic ${LDFLAG}"
+        echo "-lmagic -L${LIB_PATH}"
     }
     elif [ ${FLAG} -eq 4 ];then
         echo "file-devel"

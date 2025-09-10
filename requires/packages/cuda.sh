@@ -98,29 +98,26 @@ if [ "deb" == "${KIT_NAME}" ];then
         exit $(CheckHavePackageFromKit cuda-dev)
     elif [ ${FLAG} -eq 2 ];then
     {
-        CFLAG="-I$(FindIncPath cuda.h)"
+        INC_PATH="$(FindIncPath cuda.h)"
         checkReturnCode
 
-        echo "${CFLAG}"
+        echo "-I${INC_PATH}"
     }
     elif [ ${FLAG} -eq 3 ];then
     {
-        LDFLAG="-L$(FindLibPath libcudart.so)"
+        LIB_PATH="$(FindLibPath cudart)"
         checkReturnCode
 
-        LDFLAG2="-L$(FindLibPath stubs/libcuda.so)/stubs"
-        checkReturnCode
-
-        echo "-lcublasLt -lcublas -lcudart -lnppig -lnppc -lnppial -lnppicc -lnppidei -lnppif -lnppim -lnppisu -lnpps -lnvjpeg -lcuda ${LDFLAG} ${LDFLAG2}"
+        echo "-lcublasLt -lcublas -lcudart -lnppig -lnppc -lnppial -lnppicc -lnppidei -lnppif -lnppim -lnppisu -lnpps -lnvjpeg -lcuda -L${LIB_PATH} -L${LIB_PATH}/stubs"
     }
     elif [ ${FLAG} -eq 4 ];then
         echo "cuda-dev"
     elif [ ${FLAG} -eq 5 ];then
     {
-        BIN="$(FindBinPath nvcc)"
+        BIN_PATH="$(FindBinPath nvcc)"
         checkReturnCode
 
-        echo "${BIN}/nvcc"
+        echo "${BIN_PATH}/nvcc"
     }
     else
         exit 22
@@ -132,29 +129,26 @@ elif [ "rpm" == "${KIT_NAME}" ];then
         exit $(CheckHavePackageFromKit cuda-devel)
     elif [ ${FLAG} -eq 2 ];then
     {
-        CFLAG="-I$(FindIncPath cuda.h)"
+        INC_PATH="$(FindIncPath cuda.h)"
         checkReturnCode
 
-        echo "${CFLAG}"
+        echo "-I${INC_PATH}"
     }
     elif [ ${FLAG} -eq 3 ];then
     {
-        LDFLAG="-L$(FindLibPath libcudart.so)"
+        LIB_PATH="$(FindLibPath cudart)"
         checkReturnCode
 
-        LDFLAG2="-L$(FindLibPath stubs/libcuda.so)/stubs"
-        checkReturnCode
-
-        echo "-lcublasLt -lcublas -lcudart -lnppig -lnppc -lnppial -lnppicc -lnppidei -lnppif -lnppim -lnppisu -lnpps -lnvjpeg -lcuda ${LDFLAG} ${LDFLAG2}"
+        echo "-lcublasLt -lcublas -lcudart -lnppig -lnppc -lnppial -lnppicc -lnppidei -lnppif -lnppim -lnppisu -lnpps -lnvjpeg -lcuda -L${LIB_PATH} -L${LIB_PATH}/stubs"
     }
     elif [ ${FLAG} -eq 4 ];then
         echo "cuda-devel"
     elif [ ${FLAG} -eq 5 ];then
     {
-        BIN="$(FindBinPath nvcc)"
+        BIN_PATH="$(FindBinPath nvcc)"
         checkReturnCode
 
-        echo "${BIN}/nvcc"
+        echo "${BIN_PATH}/nvcc"
     }
     else
         exit 22

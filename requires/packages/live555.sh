@@ -92,22 +92,17 @@ if [ "deb" == "${KIT_NAME}" ];then
         exit $(CheckHavePackageFromKit "liblivemedia-dev")
     elif [ ${FLAG} -eq 2 ];then
     {
-        CFLAG="-I$(FindIncPath liveMedia/liveMedia.hh)"
+        INC_PATH="$(FindIncPath liveMedia/liveMedia.hh)"
         checkReturnCode
 
-        echo "-DNO_STD_LIB ${CFLAG}/liveMedia ${CFLAG}/BasicUsageEnvironment ${CFLAG}/groupsock ${CFLAG}/UsageEnvironment"
+        echo "-DNO_STD_LIB -I${INC_PATH}/liveMedia -I${INC_PATH}/BasicUsageEnvironment -I${INC_PATH}/groupsock -I${INC_PATH}/UsageEnvironment"
     }
     elif [ ${FLAG} -eq 3 ];then
     {
-        LDFLAG="-L$(FindLibPath libliveMedia.so)"
-        if [ $? != 0 ];then
-        {
-            LDFLAG="-L$(FindLibPath libliveMedia.a)"
-            checkReturnCode
-        }
-        fi
+        LIB_PATH="$(FindLibPath liveMedia)"
+        checkReturnCode
 
-        echo "-lliveMedia -lUsageEnvironment -lgroupsock -lBasicUsageEnvironment ${LDFLAG}"
+        echo "-lliveMedia -lUsageEnvironment -lgroupsock -lBasicUsageEnvironment -L${LIB_PATH}"
     }
     elif [ ${FLAG} -eq 4 ];then
         echo "liblivemedia-dev"
@@ -121,22 +116,17 @@ elif [ "rpm" == "${KIT_NAME}" ];then
         exit $(CheckHavePackageFromKit "live555-devel")
     elif [ ${FLAG} -eq 2 ];then
     {
-        CFLAG="-I$(FindIncPath liveMedia/liveMedia.hh)"
+        INC_PATH="-I$(FindIncPath liveMedia/liveMedia.hh)"
         checkReturnCode
 
-        echo "-DNO_STD_LIB ${CFLAG}/liveMedia ${CFLAG}/BasicUsageEnvironment ${CFLAG}/groupsock ${CFLAG}/UsageEnvironment"
+        echo "-DNO_STD_LIB -I${INC_PATH}/liveMedia -I${INC_PATH}/BasicUsageEnvironment -I${INC_PATH}/groupsock -I${INC_PATH}/UsageEnvironment"
     }
     elif [ ${FLAG} -eq 3 ];then
     {
-        LDFLAG="-L$(FindLibPath libliveMedia.so)"
-        if [ $? != 0 ];then
-        {
-            LDFLAG="-L$(FindLibPath libliveMedia.a)"
-            checkReturnCode
-        }
-        fi
+        LIB_PATH="$(FindLibPath liveMedia)"
+        checkReturnCode
 
-        echo "-lliveMedia -lUsageEnvironment -lgroupsock -lBasicUsageEnvironment ${LDFLAG}"
+        echo "-lliveMedia -lUsageEnvironment -lgroupsock -lBasicUsageEnvironment -L${LIB_PATH}"
     }
     elif [ ${FLAG} -eq 4 ];then
         echo "live555-devel"

@@ -25,46 +25,46 @@ PKG_FIND_ROOT=${_3RDPARTY_PKG_FIND_ROOT}
 PKG_FIND_MODE=${_3RDPARTY_PKG_FIND_MODE}
 
 #修复默认值。
-if [ "${PKG_FIND_ROOT}" == "" ];then
+if [ "${PKG_FIND_MODE}" == "" ];then
 PKG_FIND_MODE="default"
 fi
 
 #
 if [ "${PKG_FIND_MODE}" == "only" ];then
 {
-    if [ -f "${PKG_FIND_ROOT}/bin/${BINNAME}" ];then
-        echo "${PKG_FIND_ROOT}/bin/"
-    elif [ -f "${PKG_FIND_ROOT}/${BINNAME}" ];then
-        echo "${PKG_FIND_ROOT}/"
-    else 
-        exit 1
-    fi  
+    CHK_LIST[0]="${PKG_FIND_ROOT}/bin/"
+    CHK_LIST[1]="${PKG_FIND_ROOT}/"
+    
 }
 elif [ "${PKG_FIND_MODE}" == "both" ];then
 {
-    if [ -f "${PKG_FIND_ROOT}/bin/${BINNAME}" ];then
-        echo "${PKG_FIND_ROOT}/bin/"
-    elif [ -f "${PKG_FIND_ROOT}/${BINNAME}" ];then
-        echo "${PKG_FIND_ROOT}/"
-    elif [ -f "/usr/bin/${BINNAME}" ];then
-        echo "/usr/bin/"
-    elif [ -f "/usr/${BINNAME}" ];then
-        echo "/usr/"
-    else 
-        exit 1
-    fi  
+    CHK_LIST[0]="${PKG_FIND_ROOT}/bin/"
+    CHK_LIST[1]="${PKG_FIND_ROOT}/"
+    CHK_LIST[2]="/usr/bin/"
+    CHK_LIST[3]="/usr/"
+    CHK_LIST[4]="/usr/local/bin/"
+    CHK_LIST[5]="/usr/local/"
 }
 else
 {
-    if [ -f "/usr/bin/${BINNAME}" ];then
-        echo "/usr/bin/"
-    elif [ -f "/usr/${BINNAME}" ];then
-        echo "/usr/"
-    else 
-        exit 1
-    fi
+    CHK_LIST[0]="/usr/bin/"
+    CHK_LIST[1]="/usr/"
+    CHK_LIST[2]="/usr/local/bin/"
+    CHK_LIST[3]="/usr/local/"
 }
 fi
 
 #
-exit $?
+for ONE_PATH in "${CHK_LIST[@]}"; do
+{
+    if [ -f "${ONE_PATH}/${BINNAME}" ] || [ -L "${ONE_PATH}/${BINNAME}" ];then
+    {
+        echo "${ONE_PATH}"
+        exit 0
+    }
+    fi
+}
+done
+
+#
+exit 1

@@ -25,46 +25,48 @@ PKG_FIND_ROOT=${_3RDPARTY_PKG_FIND_ROOT}
 PKG_FIND_MODE=${_3RDPARTY_PKG_FIND_MODE}
 
 #修复默认值。
-if [ "${PKG_FIND_ROOT}" == "" ];then
+if [ "${PKG_FIND_MODE}" == "" ];then
 PKG_FIND_MODE="default"
 fi
 
 #
 if [ "${PKG_FIND_MODE}" == "only" ];then
 {
-    if [ -f "${PKG_FIND_ROOT}/include/${HDNAME}" ];then
-        echo "${PKG_FIND_ROOT}/include/"
-    elif [ -f "${PKG_FIND_ROOT}/${HDNAME}" ];then
-        echo "${PKG_FIND_ROOT}/"
-    else 
-        exit 1
-    fi  
+    CHK_LIST[0]="${PKG_FIND_ROOT}/include/"
+    CHK_LIST[1]="${PKG_FIND_ROOT}/inc/"
+    CHK_LIST[2]="${PKG_FIND_ROOT}/"
+    
 }
 elif [ "${PKG_FIND_MODE}" == "both" ];then
 {
-    if [ -f "${PKG_FIND_ROOT}/include/${HDNAME}" ];then
-        echo "${PKG_FIND_ROOT}/include/"
-    elif [ -f "${PKG_FIND_ROOT}/${HDNAME}" ];then
-        echo "${PKG_FIND_ROOT}/"
-    elif [ -f "/usr/include/${HDNAME}" ];then
-        echo "/usr/include/"
-    elif [ -f "/usr/${HDNAME}" ];then
-        echo "/usr/"
-    else 
-        exit 1
-    fi  
+    CHK_LIST[0]="${PKG_FIND_ROOT}/include/"
+    CHK_LIST[1]="${PKG_FIND_ROOT}/inc/"
+    CHK_LIST[2]="${PKG_FIND_ROOT}/"
+    CHK_LIST[3]="/usr/include/"
+    CHK_LIST[4]="/usr/"
+    CHK_LIST[5]="/usr/local/include/"
+    CHK_LIST[6]="/usr/local/"
 }
 else
 {
-    if [ -f "/usr/include/${HDNAME}" ];then
-        echo "/usr/include/"
-    elif [ -f "/usr/${HDNAME}" ];then
-        echo "/usr/"
-    else 
-        exit 1
-    fi
+    CHK_LIST[0]="/usr/include/"
+    CHK_LIST[1]="/usr/"
+    CHK_LIST[2]="/usr/local/include/"
+    CHK_LIST[3]="/usr/local/"
 }
 fi
 
 #
-exit $?
+for ONE_PATH in "${CHK_LIST[@]}"; do
+{
+    if [ -f "${ONE_PATH}/${HDNAME}" ] || [ -L "${ONE_PATH}/${HDNAME}" ];then
+    {
+        echo "${ONE_PATH}"
+        exit 0
+    }
+    fi
+}
+done
+
+#
+exit 1

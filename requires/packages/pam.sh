@@ -91,17 +91,17 @@ if [ "deb" == "${KIT_NAME}" ];then
         exit $(CheckHavePackageFromKit "libpam0g-dev")
     elif [ ${FLAG} -eq 2 ];then
     {
-        CFLAG="-I$(FindIncPath pam_appl.h)"
+        INC_PATH="$(FindIncPath pam_appl.h)"
         checkReturnCode
 
-        echo "${CFLAG}"
+        echo "-I${INC_PATH}"
     }
     elif [ ${FLAG} -eq 3 ];then
     {
-        LDFLAG="-L$(FindLibPath libpam.so)"
+        LIB_PATH="-L$(FindLibPath pam)"
         checkReturnCode
 
-        echo "-lpam -lpam_misc ${LDFLAG}"
+        echo "-lpam -lpam_misc -L${LIB_PATH}"
     }
     elif [ ${FLAG} -eq 4 ];then
         echo "libpam0g-dev"
@@ -115,17 +115,17 @@ elif [ "rpm" == "${KIT_NAME}" ];then
         exit $(CheckHavePackageFromKit "pam-devel")
     elif [ ${FLAG} -eq 2 ];then
     {
-        CFLAG="-I$(FindIncPath pam_appl.h)"
+        INC_PATH="$(FindIncPath pam_appl.h)"
         checkReturnCode
 
-        echo "${CFLAG}"
+        echo "-I${INC_PATH}"
     }
     elif [ ${FLAG} -eq 3 ];then
     {
-        LDFLAG="-L$(FindLibPath libpam.so)"
+        LIB_PATH="$(FindLibPath pam)"
         checkReturnCode
 
-        echo "-lpam -lpam_misc ${LDFLAG}"
+        echo "-lpam -lpam_misc -L${LIB_PATH}"
     }
     elif [ ${FLAG} -eq 4 ];then
         echo "pam-devel"

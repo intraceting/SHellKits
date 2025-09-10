@@ -95,10 +95,10 @@ if [ "deb" == "${KIT_NAME}" ];then
         PackageConfig  --cflags odbc 
         if [ $? -ne 0 ];then
         {
-            CFLAG="-I$(FindIncPath sql.h)"
+            INC_PATH="$(FindIncPath sql.h)"
             checkReturnCode
 
-            echo "-DHAVE_UNISTD_H -DHAVE_PWD_H -DHAVE_SYS_TYPES_H -DHAVE_LONG_LONG -DSIZEOF_LONG_INT=8 ${CFLAG}"
+            echo "-DHAVE_UNISTD_H -DHAVE_PWD_H -DHAVE_SYS_TYPES_H -DHAVE_LONG_LONG -DSIZEOF_LONG_INT=8 -I${INC_PATH}"
         }
         fi
     }
@@ -107,10 +107,10 @@ if [ "deb" == "${KIT_NAME}" ];then
         PackageConfig  --libs odbc 
         if [ $? -ne 0 ];then
         {
-            LDFLAG="-L$(FindLibPath libodbc.so)"
+            LIB_PATH="$(FindLibPath odbc)"
             checkReturnCode
 
-            echo "-lodbc ${LDFLAG}"
+            echo "-lodbc -L${LIB_PATH}"
         }
         fi
     }
@@ -129,10 +129,10 @@ elif [ "rpm" == "${KIT_NAME}" ];then
         PackageConfig  --cflags odbc 
         if [ $? -ne 0 ];then
         {
-            CFLAG="-I$(FindIncPath sql.h)"
+            INC_PATH="$(FindIncPath sql.h)"
             checkReturnCode
 
-            echo "-DHAVE_UNISTD_H -DHAVE_PWD_H -DHAVE_SYS_TYPES_H -DHAVE_LONG_LONG -DSIZEOF_LONG_INT=8 ${CFLAG}"
+            echo "-DHAVE_UNISTD_H -DHAVE_PWD_H -DHAVE_SYS_TYPES_H -DHAVE_LONG_LONG -DSIZEOF_LONG_INT=8 -I${INC_PATH}"
         }
         fi
     }
@@ -141,10 +141,10 @@ elif [ "rpm" == "${KIT_NAME}" ];then
         PackageConfig  --libs odbc 
         if [ $? -ne 0 ];then
         {
-            LDFLAG="-L$(FindLibPath libodbc.so)"
+            LIB_PATH="$(FindLibPath odbc)"
             checkReturnCode
 
-            echo "-lodbc ${LDFLAG}"
+            echo "-lodbc -L${LIB_PATH}"
         }
         fi
     }

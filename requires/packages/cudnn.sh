@@ -98,17 +98,17 @@ if [ "deb" == "${KIT_NAME}" ];then
         exit $(CheckHavePackageFromKit cudnn-dev)
     elif [ ${FLAG} -eq 2 ];then
     {
-        CFLAG="-I$(FindIncPath cudnn.h)"
+        INC_PATH="$(FindIncPath cudnn.h)"
         checkReturnCode
 
-        echo "${CFLAG}"
+        echo "-I${INC_PATH}"
     }
     elif [ ${FLAG} -eq 3 ];then
     {
-        LDFLAG="-L$(FindLibPath libcudnn.so)"
+        LIB_PATH="$(FindLibPath cudnn)"
         checkReturnCode
 
-        echo "-lcudnn ${LDFLAG}"
+        echo "-lcudnn -L${LIB_PATH}"
     }
     elif [ ${FLAG} -eq 4 ];then
         echo "cudnn-dev"
@@ -122,17 +122,17 @@ elif [ "rpm" == "${KIT_NAME}" ];then
         exit $(CheckHavePackageFromKit cudnn-devel)
     elif [ ${FLAG} -eq 2 ];then
     {
-        CFLAG="-I$(FindIncPath cudnn.h)"
+        INC_PATH="$(FindIncPath cudnn.h)"
         checkReturnCode
 
-        echo "${CFLAG}"
+        echo "-I${INC_PATH}"
     }
     elif [ ${FLAG} -eq 3 ];then
     {
-        LDFLAG="-L$(FindLibPath libcudnn.so)"
+        LIB_PATH="$(FindLibPath cudnn)"
         checkReturnCode
 
-        echo "-lcudnn ${LDFLAG}"
+        echo "-lcudnn -L${LIB_PATH}"
     }
     elif [ ${FLAG} -eq 4 ];then
         echo "cudnn-devel"

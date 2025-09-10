@@ -25,7 +25,7 @@ PKG_FIND_ROOT=${_3RDPARTY_PKG_FIND_ROOT}
 PKG_FIND_MODE=${_3RDPARTY_PKG_FIND_MODE}
 
 #修复默认值。
-if [ "${PKG_FIND_ROOT}" == "" ];then
+if [ "${PKG_FIND_MODE}" == "" ];then
 PKG_FIND_MODE="default"
 fi
 
@@ -48,55 +48,52 @@ fi
 #
 if [ "${PKG_FIND_MODE}" == "only" ];then
 {
-    if [ -f "${PKG_FIND_ROOT}/lib${PKG_WORDBIT}/${PKG_MACHINE}/${SONAME}" ];then
-        echo "${PKG_FIND_ROOT}/lib${PKG_WORDBIT}/${PKG_MACHINE}/"
-    elif [ -f "${PKG_FIND_ROOT}/lib${PKG_WORDBIT}/${SONAME}" ];then
-        echo "${PKG_FIND_ROOT}/lib${PKG_WORDBIT}/"
-    elif [ -f "${PKG_FIND_ROOT}/lib/${PKG_MACHINE}/${SONAME}" ];then
-        echo "${PKG_FIND_ROOT}/lib/${PKG_MACHINE}/"
-    elif [ -f "${PKG_FIND_ROOT}/lib/${SONAME}" ];then
-        echo "${PKG_FIND_ROOT}/lib/"
-    else 
-        exit 1
-    fi
+    CHK_LIST[0]="${PKG_FIND_ROOT}/lib${PKG_WORDBIT}/${PKG_MACHINE}/"
+    CHK_LIST[1]="${PKG_FIND_ROOT}/lib${PKG_WORDBIT}/"
+    CHK_LIST[2]="${PKG_FIND_ROOT}/lib/${PKG_MACHINE}/"
+    CHK_LIST[3]="${PKG_FIND_ROOT}/lib/"
 }
 elif [ "${PKG_FIND_MODE}" == "both" ];then
 {
-    if [ -f "${PKG_FIND_ROOT}/lib${PKG_WORDBIT}/${PKG_MACHINE}/${SONAME}" ];then
-        echo "${PKG_FIND_ROOT}/lib${PKG_WORDBIT}/${PKG_MACHINE}/"
-    elif [ -f "${PKG_FIND_ROOT}/lib${PKG_WORDBIT}/${SONAME}" ];then
-        echo "${PKG_FIND_ROOT}/lib${PKG_WORDBIT}/"
-    elif [ -f "${PKG_FIND_ROOT}/lib/${PKG_MACHINE}/${SONAME}" ];then
-        echo "${PKG_FIND_ROOT}/lib/${PKG_MACHINE}/"
-    elif [ -f "${PKG_FIND_ROOT}/lib/${SONAME}" ];then
-        echo "${PKG_FIND_ROOT}/lib/"
-    elif [ -f "/usr/lib${PKG_WORDBIT}/${PKG_MACHINE}/${SONAME}" ];then
-        echo "/usr/lib${PKG_WORDBIT}/${PKG_MACHINE}/"
-    elif [ -f "/usr/lib${PKG_WORDBIT}/${SONAME}" ];then
-        echo "/usr/lib${PKG_WORDBIT}/"
-    elif [ -f "/usr/lib/${PKG_MACHINE}/${SONAME}" ];then
-        echo "/usr/lib/${PKG_MACHINE}/"
-    elif [ -f "/usr/lib/${SONAME}" ];then
-        echo "/usr/lib/"
-    else
-        exit 1
-    fi
+    CHK_LIST[0]="${PKG_FIND_ROOT}/lib${PKG_WORDBIT}/${PKG_MACHINE}/"
+    CHK_LIST[1]="${PKG_FIND_ROOT}/lib${PKG_WORDBIT}/"
+    CHK_LIST[2]="${PKG_FIND_ROOT}/lib/${PKG_MACHINE}/"
+    CHK_LIST[3]="${PKG_FIND_ROOT}/lib/"
+    CHK_LIST[4]="/usr/lib${PKG_WORDBIT}/${PKG_MACHINE}/"
+    CHK_LIST[5]="/usr/lib${PKG_WORDBIT}/"
+    CHK_LIST[6]="/usr/lib/${PKG_MACHINE}/"
+    CHK_LIST[7]="/usr/lib/"
+    CHK_LIST[8]="/usr/local/lib${PKG_WORDBIT}/${PKG_MACHINE}/"
+    CHK_LIST[9]="/usr/local/lib${PKG_WORDBIT}/"
+    CHK_LIST[10]="/usr/local/lib/${PKG_MACHINE}/"
+    CHK_LIST[11]="/usr/local/lib/"
 }
 else
 {
-    if [ -f "/usr/lib${PKG_WORDBIT}/${PKG_MACHINE}/${SONAME}" ];then
-        echo "/usr/lib${PKG_WORDBIT}/${PKG_MACHINE}/"
-    elif [ -f "/usr/lib${PKG_WORDBIT}/${SONAME}" ];then
-        echo "/usr/lib${PKG_WORDBIT}/"
-    elif [ -f "/usr/lib/${PKG_MACHINE}/${SONAME}" ];then
-        echo "/usr/lib/${PKG_MACHINE}/"
-    elif [ -f "/usr/lib/${SONAME}" ];then
-        echo "/usr/lib/"
-    else
-        exit 1
-    fi
+    CHK_LIST[0]="/usr/lib${PKG_WORDBIT}/${PKG_MACHINE}/"
+    CHK_LIST[1]="/usr/lib${PKG_WORDBIT}/"
+    CHK_LIST[2]="/usr/lib/${PKG_MACHINE}/"
+    CHK_LIST[3]="/usr/lib/"
+    CHK_LIST[4]="/usr/local/lib${PKG_WORDBIT}/${PKG_MACHINE}/"
+    CHK_LIST[5]="/usr/local/lib${PKG_WORDBIT}/"
+    CHK_LIST[6]="/usr/local/lib/${PKG_MACHINE}/"
+    CHK_LIST[7]="/usr/local/lib/"
 }
 fi
 
 #
-exit $?
+for ONE_PATH in "${CHK_LIST[@]}"; do
+{
+    if [ -f "${ONE_PATH}/${SONAME}" ] || [ -L "${ONE_PATH}/${SONAME}" ] || \
+        [ -f "${ONE_PATH}/lib${SONAME}.so" ] || [ -L "${ONE_PATH}/lib${SONAME}.so" ] || \
+        [ -f "${ONE_PATH}/lib${SONAME}.a" ] || [ -L "${ONE_PATH}/lib${SONAME}.a" ];then
+    {
+        echo "${ONE_PATH}"
+        exit 0
+    }
+    fi
+}
+done
+
+#
+exit 1

@@ -95,10 +95,10 @@ if [ "deb" == "${KIT_NAME}" ];then
         PackageConfig  --cflags libmosquitto 
         if [ $? -ne 0 ];then
         {
-            CFLAG="-I$(FindIncPath mosquitto.h)"
+            INC_PATH="$(FindIncPath mosquitto.h)"
             checkReturnCode
 
-            echo "${CFLAG}"
+            echo "-I${INC_PATH}"
         }
         fi
     }
@@ -107,10 +107,10 @@ if [ "deb" == "${KIT_NAME}" ];then
         PackageConfig  --libs libmosquitto 
         if [ $? -ne 0 ];then
         {
-            LDFLAG="-L$(FindLibPath libmosquitto.so)"
+            LIB_PATH="$(FindLibPath mosquitto)"
             checkReturnCode
 
-            echo "-lmosquitto ${LDFLAG}"
+            echo "-lmosquitto -L${LIB_PATH}"
         }
         fi
     }

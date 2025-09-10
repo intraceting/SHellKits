@@ -91,34 +91,34 @@ if [ "deb" == "${KIT_NAME}" ];then
         exit $(CheckHavePackageFromKit libopencv-dev)
     elif [ ${FLAG} -eq 2 ];then
     {
-        CFLAG="-I$(FindIncPath opencv2/opencv.hpp)"
+        INC_PATH="$(FindIncPath opencv2/opencv.hpp)"
         if [ $? -eq 0 ];then
         {
-            echo "${CFLAG}"
+            echo "-I${INC_PATH}"
         }
         else 
         {
-            CFLAG="-I$(FindIncPath opencv4/opencv2/opencv.hpp)"
+            INC_PATH="$(FindIncPath opencv4/opencv2/opencv.hpp)"
             checkReturnCode
 
-            echo "${CFLAG}/opencv4"
+            echo "-I${INC_PATH}/opencv4"
         }
         fi
         
     }
     elif [ ${FLAG} -eq 3 ];then
     {
-        LDFLAG="-L$(FindLibPath libopencv_xfeatures2d.so)"
+        LIB_PATH="$(FindLibPath opencv_xfeatures2d)"
         if [ $? -eq 0 ];then
         {
-            echo "-lopencv_calib3d -lopencv_core -lopencv_imgcodecs -lopencv_imgproc -lopencv_stitching -lopencv_flann -lopencv_features2d -lopencv_xfeatures2d   ${LDFLAG}"
+            echo "-lopencv_calib3d -lopencv_core -lopencv_imgcodecs -lopencv_imgproc -lopencv_stitching -lopencv_flann -lopencv_features2d -lopencv_xfeatures2d   -L${LIB_PATH}"
         }
         else 
         {
-            LDFLAG="-L$(FindLibPath libopencv_core.so)"
+            LIB_PATH="$(FindLibPath opencv_core)"
             checkReturnCode
 
-            echo "-lopencv_calib3d -lopencv_core -lopencv_imgcodecs -lopencv_imgproc -lopencv_stitching -lopencv_flann -lopencv_features2d  ${LDFLAG}"
+            echo "-lopencv_calib3d -lopencv_core -lopencv_imgcodecs -lopencv_imgproc -lopencv_stitching -lopencv_flann -lopencv_features2d  -L${LIB_PATH}"
         }
         fi
     }
@@ -134,33 +134,33 @@ elif [ "rpm" == "${KIT_NAME}" ];then
         exit $(CheckHavePackageFromKit opencv-devel)
     elif [ ${FLAG} -eq 2 ];then
     {
-        CFLAG="-I$(FindIncPath opencv2/opencv.hpp)"
+        INC_PATH="-I$(FindIncPath opencv2/opencv.hpp)"
         if [ $? -eq 0 ];then
         {
-            echo "${CFLAG}"
+            echo "-I${INC_PATH}"
         }
         else 
         {
-            CFLAG="-I$(FindIncPath opencv4/opencv2/opencv.hpp)"
+            INC_PATH="-I$(FindIncPath opencv4/opencv2/opencv.hpp)"
             checkReturnCode
 
-            echo "${CFLAG}/opencv4"
+            echo "-I${INC_PATH}/opencv4"
         }
         fi
     }
     elif [ ${FLAG} -eq 3 ];then
     {
-        LDFLAG="-L$(FindLibPath libopencv_xfeatures2d.so)"
+        LIB_PATH="$(FindLibPath opencv_xfeatures2d)"
         if [ $? -eq 0 ];then
         {
-            echo "-lopencv_calib3d -lopencv_core -lopencv_imgcodecs -lopencv_imgproc -lopencv_stitching -lopencv_flann -lopencv_features2d -lopencv_xfeatures2d  ${LDFLAG}"
+            echo "-lopencv_calib3d -lopencv_core -lopencv_imgcodecs -lopencv_imgproc -lopencv_stitching -lopencv_flann -lopencv_features2d -lopencv_xfeatures2d  -L${LIB_PATH}"
         }
         else 
         {
-            LDFLAG="-L$(FindLibPath libopencv_core.so)"
+            LIB_PATH="$(FindLibPath opencv_core)"
             checkReturnCode
 
-            echo "-lopencv_calib3d -lopencv_core -lopencv_imgcodecs -lopencv_imgproc -lopencv_stitching -lopencv_flann -lopencv_features2d  ${LDFLAG}"
+            echo "-lopencv_calib3d -lopencv_core -lopencv_imgcodecs -lopencv_imgproc -lopencv_stitching -lopencv_flann -lopencv_features2d  -L${LIB_PATH}"
         }
         fi
     }

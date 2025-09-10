@@ -98,17 +98,17 @@ if [ "deb" == "${KIT_NAME}" ];then
         exit $(CheckHavePackageFromKit faiss-dev)
     elif [ ${FLAG} -eq 2 ];then
     {
-        CFLAG="-I$(FindIncPath faiss/Index.h)"
+        INC_PATH="$(FindIncPath faiss/Index.h)"
         checkReturnCode
 
-        echo "${CFLAG}"
+        echo "-I${INC_PATH}"
     }
     elif [ ${FLAG} -eq 3 ];then
     {
-        LDFLAG="-L$(FindLibPath libfaiss.so)"
+        LIB_PATH="$(FindLibPath faiss)"
         checkReturnCode
 
-        echo "-lfaiss ${LDFLAG}"
+        echo "-lfaiss -L${LIB_PATH}"
     }
     elif [ ${FLAG} -eq 4 ];then
         echo "faiss-dev"
@@ -122,17 +122,17 @@ elif [ "rpm" == "${KIT_NAME}" ];then
         exit $(CheckHavePackageFromKit faiss-devel)
     elif [ ${FLAG} -eq 2 ];then
     {
-        CFLAG="-I$(FindIncPath faiss/Index.h)"
+        INC_PATH="$(FindIncPath faiss/Index.h)"
         checkReturnCode
 
-        echo "${CFLAG}"
+        echo "-I${INC_PATH}"
     }
     elif [ ${FLAG} -eq 3 ];then
     {
-        LDFLAG="-L$(FindLibPath libfaiss.so)"
+        LIB_PATH="$(FindLibPath faiss)"
         checkReturnCode
 
-        echo "-lfaiss ${LDFLAG}"
+        echo "-lfaiss -L${LIB_PATH}"
     }
     elif [ ${FLAG} -eq 4 ];then
         echo "faiss-devel"

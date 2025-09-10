@@ -94,10 +94,10 @@ if [ "deb" == "${KIT_NAME}" ];then
         PackageConfig  --cflags fcgi 
         if [ $? -ne 0 ];then 
         {
-            CFLAG="-I$(FindIncPath fcgiapp.h)"
+            INC_PATH="$(FindIncPath fcgiapp.h)"
             checkReturnCode
 
-            echo "${CFLAG}"
+            echo "-I${INC_PATH}"
         }
         fi
     }
@@ -106,10 +106,10 @@ if [ "deb" == "${KIT_NAME}" ];then
         PackageConfig  --libs fcgi 
         if [ $? -ne 0 ];then 
         {
-            LDFLAG="-L$(FindLibPath libfcgi.so)"
+            LIB_PATH="$(FindLibPath fcgi)"
             checkReturnCode
 
-            echo "-lfcgi ${LDFLAG}"
+            echo "-lfcgi -L${LIB_PATH}"
         }
         fi
     }
@@ -128,10 +128,10 @@ elif [ "rpm" == "${KIT_NAME}" ];then
         PackageConfig  --cflags fcgi 
         if [ $? -ne 0 ];then 
         {
-            CFLAG="-I$(FindIncPath fcgiapp.h)"
+            INC_PATH="$(FindIncPath fcgiapp.h)"
             checkReturnCode
 
-            echo "${CFLAG}"
+            echo "-I${INC_PATH}"
         }
         fi
     }
@@ -140,10 +140,10 @@ elif [ "rpm" == "${KIT_NAME}" ];then
         PackageConfig  --libs fcgi 
         if [ $? -ne 0 ];then 
         {
-            LDFLAG="-L$(FindLibPath libfcgi.so)"
+            LIB_PATH="$(FindLibPath fcgi)"
             checkReturnCode
 
-            echo "-lfcgi ${LDFLAG}"
+            echo "-lfcgi -L${LIB_PATH}"
         }
         fi
     }

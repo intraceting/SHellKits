@@ -91,17 +91,17 @@ if [ "deb" == "${KIT_NAME}" ];then
         exit $(CheckHavePackageFromKit tensorrt-dev)
     elif [ ${FLAG} -eq 2 ];then
     {
-        CFLAG="-I$(FindIncPath NvInfer.h)"
+        INC_PATH="$(FindIncPath NvInfer.h)"
         checkReturnCode
 
-        echo "${CFLAG}"
+        echo "-I${INC_PATH}"
     }
     elif [ ${FLAG} -eq 3 ];then
     {
-        LDFLAG="-L$(FindLibPath libnvinfer.so)"
+        LIB_PATH="$(FindLibPath nvinfer)"
         checkReturnCode
 
-        echo "-lnvinfer -lnvinfer_plugin -lnvonnxparser  ${LDFLAG}"
+        echo "-lnvinfer -lnvinfer_plugin -lnvonnxparser  -L${LIB_PATH}"
     }
     elif [ ${FLAG} -eq 4 ];then
         echo "tensorrt-dev"
@@ -115,17 +115,17 @@ elif [ "rpm" == "${KIT_NAME}" ];then
         exit $(CheckHavePackageFromKit tensorrt-devel)
     elif [ ${FLAG} -eq 2 ];then
     {
-        CFLAG="-I$(FindIncPath NvInfer.h)"
+        INC_PATH="$(FindIncPath NvInfer.h)"
         checkReturnCode
 
-        echo "${CFLAG}"
+        echo "-I${INC_PATH}"
     }
     elif [ ${FLAG} -eq 3 ];then
     {
-        LDFLAG="-L$(FindLibPath libnvinfer.so)"
+        LIB_PATH="$(FindLibPath nvinfer)"
         checkReturnCode
 
-        echo "-lnvinfer -lnvinfer_plugin -lnvonnxparser  ${LDFLAG}"
+        echo "-lnvinfer -lnvinfer_plugin -lnvonnxparser  -L${LIB_PATH}"
     }
     elif [ ${FLAG} -eq 4 ];then
         echo "tensorrt-devel"

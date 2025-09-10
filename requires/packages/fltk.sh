@@ -92,17 +92,17 @@ if [ "deb" == "${KIT_NAME}" ];then
         exit $(CheckHavePackageFromKit "libfltk1.3-dev")
     elif [ ${FLAG} -eq 2 ];then
     {
-        CFLAG="-I$(FindIncPath FL/Fl.H)"
+        INC_PATH="$(FindIncPath FL/Fl.H)"
         checkReturnCode
 
-        echo "${CFLAG}"
+        echo "-I${INC_PATH}"
     }
     elif [ ${FLAG} -eq 3 ];then
     {
-        LDFLAG="-L$(FindLibPath libfltk.so)"
+        LIB_PATH="$(FindLibPath fltk)"
         checkReturnCode
 
-        echo "-lfltk ${LDFLAG}"
+        echo "-lfltk -L${LIB_PATH}"
     }
     elif [ ${FLAG} -eq 4 ];then
         echo "libfltk1.3-dev"
@@ -116,17 +116,17 @@ elif [ "rpm" == "${KIT_NAME}" ];then
         exit $(CheckHavePackageFromKit "fltk-devel")
     elif [ ${FLAG} -eq 2 ];then
     {
-        CFLAG="-I$(FindIncPath FL/Fl.H)"
+        INC_PATH="$(FindIncPath FL/Fl.H)"
         checkReturnCode
 
-        echo "${CFLAG}"
+        echo "-I${INC_PATH}"
     }
     elif [ ${FLAG} -eq 3 ];then
     {
-        LDFLAG="-L$(FindLibPath libfltk.so)"
+        LIB_PATH="$(FindLibPath fltk)"
         checkReturnCode
 
-        echo "-lfltk ${LDFLAG}"
+        echo "-lfltk -L${LIB_PATH}"
     }
     elif [ ${FLAG} -eq 4 ];then
         echo "fltk-devel"

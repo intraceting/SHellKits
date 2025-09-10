@@ -118,10 +118,10 @@ elif [ "rpm" == "${KIT_NAME}" ];then
         PackageConfig  --cflags openblas 
         if [ $? -ne 0 ];then
         {
-            CFLAG="-I$(FindIncPath openblas/openblas_config.h)/openblas/"
+            CFLAG="-I$(FindIncPath openblas/openblas_config.h)"
             checkReturnCode
 
-            echo "${CFLAG}"
+            echo "${CFLAG}/openblas"
         }
         fi
     }
@@ -130,7 +130,7 @@ elif [ "rpm" == "${KIT_NAME}" ];then
         PackageConfig  --libs openblas 
         if [ $? -ne 0 ];then
         {
-            LDFLAG="-L$(FindLibPath libopenblas.so)"
+            LDFLAG="-L$(FindLibPath openblas)"
             checkReturnCode
 
             echo "-lopenblas ${LDFLAG}"
