@@ -19,40 +19,36 @@ fi
 HDNAME="$1"
 
 #
-PKG_MACHINE=${_3RDPARTY_PKG_MACHINE}
-PKG_WORDBIT=${_3RDPARTY_PKG_WORDBIT}
+PKG_BITWIDE=${_3RDPARTY_PKG_BITWIDE}
 PKG_FIND_ROOT=${_3RDPARTY_PKG_FIND_ROOT}
 PKG_FIND_MODE=${_3RDPARTY_PKG_FIND_MODE}
 
 #修复默认值。
-if [ "${PKG_FIND_MODE}" == "" ];then
+if [ "${PKG_FIND_ROOT}" == "" ];then
 PKG_FIND_MODE="default"
+fi
+
+#修复默认值。
+if [ "${PKG_BITWIDE}" == "" ];then
+PKG_BITWIDE="64"
 fi
 
 #
 if [ "${PKG_FIND_MODE}" == "only" ];then
 {
-    CHK_LIST[0]="${PKG_FIND_ROOT}/include/"
-    CHK_LIST[1]="${PKG_FIND_ROOT}/inc/"
-    CHK_LIST[2]="${PKG_FIND_ROOT}/"
-    
+    CHK_LIST+=("${PKG_FIND_ROOT}/include/")
 }
 elif [ "${PKG_FIND_MODE}" == "both" ];then
 {
-    CHK_LIST[0]="${PKG_FIND_ROOT}/include/"
-    CHK_LIST[1]="${PKG_FIND_ROOT}/inc/"
-    CHK_LIST[2]="${PKG_FIND_ROOT}/"
-    CHK_LIST[3]="/usr/include/"
-    CHK_LIST[4]="/usr/"
-    CHK_LIST[5]="/usr/local/include/"
-    CHK_LIST[6]="/usr/local/"
+    CHK_LIST+=("${PKG_FIND_ROOT}/include/")
+    CHK_LIST+=("/usr/local/include/")
+    CHK_LIST+=("/usr/include/")
+    
 }
 else
 {
-    CHK_LIST[0]="/usr/include/"
-    CHK_LIST[1]="/usr/"
-    CHK_LIST[2]="/usr/local/include/"
-    CHK_LIST[3]="/usr/local/"
+    CHK_LIST+=("/usr/local/include/")
+    CHK_LIST+=("/usr/include/")
 }
 fi
 

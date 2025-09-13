@@ -157,6 +157,9 @@ License: none
 Requires: ${REQUIRE_LIST} 
 AutoReqProv: no
 
+# set '_buildhost'.
+%global _buildhost shellkits
+
 # disable '.build-id soft-link'.
 %global debug_package %{nil}
 %define _build_id_links none

@@ -84,9 +84,9 @@ VARIABLE:
 
      SYSROOT_PATH(文件系统根路径, 多个路径之间以:分隔.)用于区分不同的文件系统.
 
-     TARGET_MACHINE=${TARGET_MACHINE}
+     TARGET_BITWIDE=${TARGET_BITWIDE}
 
-     TARGET_MACHINE(目标操作系统.)用于区分不同的操作系统.
+     TARGET_BITWIDE(目标系统架构位宽.)用于区分不同的系统架构.
 
 EOF
 }
@@ -130,17 +130,6 @@ if [ "${TARGET_MACHINE}" == "" ];then
     exit_if_error 22 "组件包名称不能省略或为空." 22
 fi
 
-#转换构建平台架构关键字。
-TARGET_PLATFORM=$(echo ${TARGET_MACHINE} | cut -d - -f 1)
-if [ "${TARGET_PLATFORM}" == "x86_64" ];then
-    TARGET_BITWIDE="64"
-elif [ "${TARGET_PLATFORM}" == "aarch64" ] || [ "${TARGET_PLATFORM:0:5}" == "armv8l" ];then
-    TARGET_BITWIDE="64"
-elif [ "${TARGET_PLATFORM}" == "arm" ] || [ "${TARGET_PLATFORM:0:5}" == "armv7" ];then
-    TARGET_BITWIDE="32"
-else 
-    TARGET_BITWIDE="128"
-fi
 #
 if (( TARGET_BITWIDE != 64 && TARGET_BITWIDE != 32 )); then
     exit_if_error 22 "不支持的目标操作系统(${TARGET_BITWIDE})." 22
@@ -154,8 +143,7 @@ IFS=":" read -ra SYSROOT_PATH_VECTOR <<< "${SYSROOT_PATH}"
 for ONE_SYSROOT_PATH in "${SYSROOT_PATH_VECTOR[@]}"; do
 {
     #设置环境变量, 用于搜索依赖包.
-    export _3RDPARTY_PKG_MACHINE=${TARGET_MACHINE}
-    export _3RDPARTY_PKG_WORDBIT=${TARGET_BITWIDE}
+    export _3RDPARTY_PKG_BITWIDE=${TARGET_BITWIDE}
     export _3RDPARTY_PKG_FIND_ROOT=${ONE_SYSROOT_PATH}
     export _3RDPARTY_PKG_FIND_MODE="only"
 
