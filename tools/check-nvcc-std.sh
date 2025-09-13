@@ -23,5 +23,5 @@ STD=$2
 CCBIN=$3
 
 #
-${COMPILER} -std=${STD} -ccbin=${CCBIN} -Xcompiler -std=${STD} -c ${SHELLDIR}/test-nvcc-std/sample.cu >>/dev/null 2>&1
+${COMPILER} -std=${STD} -ccbin=${CCBIN} -Xcompiler -std=${STD} -Xcompiler -Werror -Xcompiler -fsyntax-only -c ${SHELLDIR}/test-nvcc-std/sample.cu >>/dev/null 2>&1
 exit $?
