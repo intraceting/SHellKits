@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# This file is part of APACK.
+# This file is part of SHELLKITS.
 #  
-# Copyright (c) 2025 The APACK project authors. All Rights Reserved.
+# Copyright (c) 2025 The SHELLKITS project authors. All Rights Reserved.
 # Copyright (c) 2021 The ABCDK project authors. All Rights Reserved.
 ##
 

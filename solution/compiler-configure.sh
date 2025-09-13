@@ -31,18 +31,6 @@ exit_if_error()
 
 
 #
-GetOSId()
-{
-    ${SHELLDIR}/../tools/get-os-id.sh
-}
-
-#
-GetKitName()
-{
-	${SHELLDIR}/../tools/get-kit-name.sh
-}
-
-#
 CheckSTD()
 # $1 LANG
 # $2 COMPILER
@@ -202,12 +190,6 @@ if [ "${SHELLDIR}" == "${PWD}" ];then
 }
 fi
 
-#
-NATIVE_OSID=$(GetOSId)
-if [ "${NATIVE_OSID}" == "" ];then
-echo "NATIVE_OSID=${NATIVE_OSID} 无效或不存在."
-exit 22
-fi
 
 #检查参数。
 if [ "${NATIVE_COMPILER_PREFIX}" == "" ];then
