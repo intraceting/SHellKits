@@ -20,8 +20,8 @@ fi
 #
 COMPILER=$1
 STD=$2
-HEADER=$3
+CCBIN=$3
 
 #
-echo "#include <${HEADER}>" | ${COMPILER} -std=${STD} -x c -E - >>/dev/null 2>&1
+${COMPILER} -std=${STD} -ccbin=${CCBIN} -Xcompiler -std=${STD} -c ${SHELLDIR}/test-nvcc-std/sample.cu >>/dev/null 2>&1
 exit $?

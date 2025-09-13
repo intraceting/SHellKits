@@ -22,5 +22,5 @@ COMPILER=$1
 STD=$2
 
 #
-${COMPILER} -std=${STD} -x c++ -Werror -fsyntax-only ${SHELLDIR}/test-cxx-std/sample.cpp >/dev/null 2>&1
+${COMPILER} -std=${STD} -x c++ -Werror -fsyntax-only ${SHELLDIR}/test-cxx-std/sample.cpp >>/dev/null 2>&1
 exit $?

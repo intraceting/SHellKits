@@ -23,5 +23,5 @@ STD=$2
 HEADER=$3
 
 #
-echo "#include <${HEADER}>" | ${COMPILER} -std=${STD} -x c++ -E - >/dev/null 2>&1
+echo "#include <${HEADER}>" | ${COMPILER} -std=${STD} -x c++ -E - >>/dev/null 2>&1
 exit $?

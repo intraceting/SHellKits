@@ -43,6 +43,15 @@ CheckSTD()
     ${SHELLDIR}/../tools/check-$1-std.sh "$2" "$3"
 }
 
+#
+CheckNVCCSTD()
+# $1 COMPILER
+# $2 STD
+# $3 CCBIN
+{
+    ${SHELLDIR}/../tools/check-nvcc-std.sh "$1" "$2" "$3"
+}
+
 
 #
 CheckHeader()
@@ -176,6 +185,10 @@ MSGFMT_BIN=$(which msgfmt)
 MSGCAT_BIN=$(which msgcat)
 
 #
+STD_C=c99
+STD_CXX=c++11
+
+#
 COMPILER_PREFIX=/usr/bin/
 COMPILER_C_NAME=gcc
 COMPILER_CXX_NAME=g++
@@ -250,6 +263,14 @@ VARIABLE:
     
      BUILD_TYPE(构建类型)支持以下关键字：
      debug,release
+
+     STD_C=${STD_C}
+
+     STD_C=(C语言标准)
+
+     STD_CXX=${STD_CXX}
+
+     STD_CXX=(C++语言标准)
      
      COMPILER_PREFIX=${COMPILER_PREFIX}
 
@@ -332,20 +353,34 @@ TARGET_COMPILER_C=$(realpath -s ${COMPILER_PREFIX}${COMPILER_C_NAME})
 TARGET_COMPILER_CXX=$(realpath -s ${COMPILER_PREFIX}${COMPILER_CXX_NAME})
 
 #
-CheckSTD c "${TARGET_COMPILER_C}" "c99"
+CheckSTD c "${TARGET_COMPILER_C}" "${STD_C}"
 if [ $? -ne 0 ];then
 {
-    echo "The compiler supports at least the c99 standard."
+    echo "The compiler(C) supports at least the ${STD_C} standard."
     exit 22
 }
 fi
 
 #
-CheckSTD cxx "${TARGET_COMPILER_CXX}" "c++11"
+CheckSTD cxx "${TARGET_COMPILER_CXX}" "${STD_CXX}"
 if [ $? -ne 0 ];then
 {
-    echo "The compiler supports at least the c++11 standard."
+    echo "The compiler(C++) supports at least the ${STD_CXX} standard."
     exit 22
+}
+fi
+
+#
+if [ "${CUDA_COMPILER_BIN}" != "" ];then
+{
+    #
+    CheckNVCCSTD ${CUDA_COMPILER_BIN} ${STD_CXX} "${TARGET_COMPILER_CXX}"
+    if [ $? -ne 0 ];then
+    {
+        echo "The compiler(CU) supports at least the ${STD_CXX} standard."
+        exit 22
+    }
+    fi
 }
 fi
 
@@ -419,16 +454,6 @@ DependPackageCheck cuda HAVE_CUDA
 DependPackageCheck cudnn HAVE_CUDNN
 DependPackageCheck tensorrt HAVE_TENSORRT
 
-#
-if [ "${CUDA_COMPILER_BIN}" != "" ];then
-{
-    if [ -f "${CUDA_COMPILER_BIN}" ] || [ -L "${CUDA_COMPILER_BIN}" ];then
-    {
-        echo "Warning: '${CUDA_COMPILER_BIN}' does not exist. "
-    }
-    fi
-}
-fi
 
 #
 if [ "${THIRDPARTY_NOTFOUND}" != "" ];then

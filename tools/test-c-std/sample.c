@@ -10,6 +10,6 @@
 //
 int main()
 {
-    fprintf(stderr, "test-c");
+    fprintf(stderr, "test-c!");
     return 0;
 }
