@@ -9,6 +9,28 @@
 #
 SHELLDIR=$(cd `dirname "$0"`; pwd)
 
+#
+exit_if_error()
+#errno
+#errstr
+#exitcode
+{
+    if [ $# -ne 3 ];then
+    {
+        echo "Requires three parameters: errno, errstr, exitcode."
+        exit 1
+    }
+    fi 
+    
+    if [ $1 -ne 0 ];then
+    {
+        echo $2
+        exit $3
+    }
+    fi
+}
+
+
 # Functions
 checkReturnCode()
 {
@@ -171,6 +193,13 @@ DependHeaderCheck()
 #    echo ${THIRDPARTY_FLAGS} 
 }
 
+
+#
+BUILD_PATH=${PWD}
+
+#
+INSTALL_PREFIX="/usr/local/"
+
 #主版本
 VERSION_MAJOR="0"
 #副版本
@@ -180,9 +209,6 @@ VERSION_RELEASE="0"
 
 #
 LSB_RELEASE="linux-gnu"
-
-#
-INSTALL_PREFIX="/usr/local/"
 
 #
 XGETTEXT_BIN=$(which xgettext)
@@ -505,6 +531,7 @@ DEPEND_LIB_PATH = ${THIRDPARTY_LIBS_PATH}
 SHELL_TOOLS_HOME = $(realpath -s ${SHELLDIR}/../tools/)
 #
 $(printf "%s\n" "${THIRDPARTY_ENABLE[@]/%/ = yes}")
+
 #
 EOF
 checkReturnCode
