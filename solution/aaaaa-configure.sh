@@ -513,4 +513,6 @@ $(printf "%s\n" "${THIRDPARTY_ENABLE[@]/%/ = yes}")
 EOF
 checkReturnCode
 
-
+#
+echo "DEPEND_LIB_PATH=${THIRDPARTY_LIBS_PATH}" > ${BUILD_PATH}/libs-path.conf
+checkReturnCode
