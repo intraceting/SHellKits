@@ -195,7 +195,7 @@ DependHeaderCheck()
 
 
 #
-BUILD_PATH=${PWD}
+BUILD_PATH=${PWD}/build/
 
 #
 INSTALL_PREFIX="/usr/local/"
