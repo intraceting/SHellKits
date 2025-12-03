@@ -27,7 +27,7 @@ if [ "${TARGET_PLATFORM}" == "x86_64" ];then
 {
     TARGET_BITWIDE="64"
 }
-elif [ "${TARGET_PLATFORM}" == "aarch64" ] || [ "${TARGET_PLATFORM:0:5}" == "armv8l" ];then
+elif [ "${TARGET_PLATFORM}" == "aarch64" ] || [ "${TARGET_PLATFORM:0:5}" == "armv8" ];then
 {
     TARGET_BITWIDE="64"
 }
