@@ -11,43 +11,42 @@
 SHELLDIR=$(cd `dirname $0`; pwd)
 
 #
-if [ $# -ne 2 ];then
+if [ $# -ne 3 ];then
     exit 22
 fi
 
 #
-HDNAME="$1"
-BINDIR="$2"
+NAME="$1"
+PREFIX="$2"
+MACHINE="$3"
 
 #拆分路径到数组.
-IFS=':' read -r -a CHK_LIST <<< "${BINDIR}"
+IFS=':' read -r -a CHK_LIST <<< "${PREFIX}"
 
 #
 for ONE_PATH in "${CHK_LIST[@]}"; do
 {
     #
-    if [ -f "${ONE_PATH}/${HDNAME}" ] || [ -L "${ONE_PATH}/${HDNAME}" ];then
-    {
-        echo "${ONE_PATH}"
-        exit 0
-    }
-    fi
+    SUB_LIST+=("${ONE_PATH}")
+    SUB_LIST+=("${ONE_PATH}/bin")
+    SUB_LIST+=("${ONE_PATH}/sbin")
+    SUB_LIST+=("${ONE_PATH}/bin/${MACHINE}")
+    SUB_LIST+=("${ONE_PATH}/sbin/${MACHINE}")
+    SUB_LIST+=("${ONE_PATH}/${MACHINE}")
+    SUB_LIST+=("${ONE_PATH}/${MACHINE}/bin")
+    SUB_LIST+=("${ONE_PATH}/${MACHINE}/sbin")
     
-    #
-    if [ -f "${ONE_PATH}/bin/${HDNAME}" ] || [ -L "${ONE_PATH}/bin/${HDNAME}" ];then
+    for SUB_PATH in "${SUB_LIST[@]}"; do
     {
-        echo "${ONE_PATH}/bin"
-        exit 0
+    	#
+	if [ -f "${SUB_PATH}/${NAME}" ] || [ -L "${SUB_PATH}/${NAME}" ];then
+        {
+            echo "${SUB_PATH}"
+            exit 0
+	}
+	fi
     }
-    fi
- 
-    
-    if [ -f "${ONE_PATH}/sbin/${HDNAME}" ] || [ -L "${ONE_PATH}/sbin/${HDNAME}" ];then
-    {
-        echo "${ONE_PATH}/sbin"
-        exit 0
-    }
-    fi
+    done
 }
 done
 

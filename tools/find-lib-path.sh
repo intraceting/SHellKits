@@ -11,55 +11,46 @@
 SHELLDIR=$(cd `dirname $0`; pwd)
 
 #
-if [ $# -ne 2 ];then
+if [ $# -ne 3 ];then
     exit 22
 fi
 
 #
-SONAME="$1"
-LIBDIR="$2"
+NAME="$1"
+PREFIX="$2"
+MACHINE="$3"
 
 #拆分路径到数组.
-IFS=':' read -r -a CHK_LIST <<< "$LIBDIR"
+IFS=':' read -r -a CHK_LIST <<< "${PREFIX}"
 
 #
 for ONE_PATH in "${CHK_LIST[@]}"; do
 {
     #
-    if [ -f "${ONE_PATH}/lib${SONAME}.so" ] || [ -L "${ONE_PATH}/lib${SONAME}.so" ] ||
-    	[ -f "${ONE_PATH}/lib${SONAME}.a" ] || [ -L "${ONE_PATH}/lib${SONAME}.a" ] || 
-    	[ -f "${ONE_PATH}/${SONAME}.so" ] || [ -L "${ONE_PATH}/${SONAME}.so" ] ||
-    	[ -f "${ONE_PATH}/${SONAME}.a" ] || [ -L "${ONE_PATH}/${SONAME}.a" ] || 
-    	[ -f "${ONE_PATH}/${SONAME}" ] || [ -L "${ONE_PATH}/${SONAME}" ];then
-    {
-        echo "${ONE_PATH}"
-        exit 0
-    }
-    fi
+    SUB_LIST+=("${ONE_PATH}")
+    SUB_LIST+=("${ONE_PATH}/lib64")
+    SUB_LIST+=("${ONE_PATH}/lib")
+    SUB_LIST+=("${ONE_PATH}/lib64/${MACHINE}")
+    SUB_LIST+=("${ONE_PATH}/lib/${MACHINE}")
+    SUB_LIST+=("${ONE_PATH}/${MACHINE}")
+    SUB_LIST+=("${ONE_PATH}/${MACHINE}/lib64")
+    SUB_LIST+=("${ONE_PATH}/${MACHINE}/lib")
     
-    #
-    if [ -f "${ONE_PATH}/lib64/lib${SONAME}.so" ] || [ -L "${ONE_PATH}/lib64/lib${SONAME}.so" ] ||
-    	[ -f "${ONE_PATH}/lib64/lib${SONAME}.a" ] || [ -L "${ONE_PATH}/lib64/lib${SONAME}.a" ] || 
-    	[ -f "${ONE_PATH}/lib64/${SONAME}.so" ] || [ -L "${ONE_PATH}/lib64/${SONAME}.so" ] ||
-    	[ -f "${ONE_PATH}/lib64/${SONAME}.a" ] || [ -L "${ONE_PATH}/lib64/${SONAME}.a" ] || 
-    	[ -f "${ONE_PATH}/lib64/${SONAME}" ] || [ -L "${ONE_PATH}/lib64/${SONAME}" ];then
+    for SUB_PATH in "${SUB_LIST[@]}"; do
     {
-        echo "${ONE_PATH}/lib64"
-        exit 0
+    	#
+	if [ -f "${SUB_PATH}/lib${NAME}.so" ] || [ -L "${SUB_PATH}/lib${NAME}.so" ]||
+	   [ -f "${SUB_PATH}/lib${NAME}.a" ] || [ -L "${SUB_PATH}/lib${NAME}.a" ]||
+	   [ -f "${SUB_PATH}/${NAME}.so" ] || [ -L "${SUB_PATH}/${NAME}.so" ]||
+	   [ -f "${SUB_PATH}/${NAME}.a" ] || [ -L "${SUB_PATH}/${NAME}.a" ]||
+	   [ -f "${SUB_PATH}/${NAME}" ] || [ -L "${SUB_PATH}/${NAME}" ];then
+        {
+            echo "${SUB_PATH}"
+            exit 0
+	}
+	fi
     }
-    fi
-   
-    #
-    if [ -f "${ONE_PATH}/lib/lib${SONAME}.so" ] || [ -L "${ONE_PATH}/lib/lib${SONAME}.so" ] ||
-    	[ -f "${ONE_PATH}/lib/lib${SONAME}.a" ] || [ -L "${ONE_PATH}/lib/lib${SONAME}.a" ] || 
-    	[ -f "${ONE_PATH}/lib/${SONAME}.so" ] || [ -L "${ONE_PATH}/lib/${SONAME}.so" ] ||
-    	[ -f "${ONE_PATH}/lib/${SONAME}.a" ] || [ -L "${ONE_PATH}/lib/${SONAME}.a" ] ||
-    	[ -f "${ONE_PATH}/lib/${SONAME}" ] || [ -L "${ONE_PATH}/lib/${SONAME}" ];then
-    {
-        echo "${ONE_PATH}/lib"
-        exit 0
-    }
-    fi
+    done
 }
 done
 
