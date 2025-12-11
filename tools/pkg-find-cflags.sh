@@ -11,13 +11,14 @@
 SHELLDIR=$(cd `dirname $0`; pwd)
 
 #
-if [ $# -ne 2 ];then
+if [ $# -ne 3 ];then
     exit 22
 fi
 
 #
 SONAME="$1"
 LIBDIR="$2"
+MACHINE="$3"
 
 #拆分路径到数组.
 IFS=':' read -r -a CHK_LIST <<< "$LIBDIR"
@@ -25,7 +26,7 @@ IFS=':' read -r -a CHK_LIST <<< "$LIBDIR"
 #
 for ONE_PATH in "${CHK_LIST[@]}"; do
 {
-    export PKG_CONFIG_LIBDIR=${ONE_PATH}:${ONE_PATH}/lib64/pkgconfig:${ONE_PATH}/share/pkgconfig:${ONE_PATH}/lib/pkgconfig
+    export PKG_CONFIG_LIBDIR=${ONE_PATH}:${ONE_PATH}/lib64/pkgconfig:${ONE_PATH}/lib/pkgconfig:${ONE_PATH}/lib64/${MACHINE}/pkgconfig:${ONE_PATH}/lib/${MACHINE}/pkgconfig:${ONE_PATH}/share/pkgconfig
     LD_FLAGS=$(pkg-config --cflags ${SONAME} 2>>/dev/null)
     if [ $? -eq 0 ];then
     {
