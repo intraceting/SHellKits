@@ -245,8 +245,7 @@ VARIABLE:
      live555,libarchive,nghttp2,
      ffmpeg,opencv,faiss,onnx,
      cuda,cudnn,tensorrt,
-     qt5,
-     abcdk,aauth
+     qt5
      
 EOF
 }
