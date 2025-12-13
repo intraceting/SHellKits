@@ -136,6 +136,9 @@ FindBIN_PATH()
     ${SHELLDIR}/../tools/find-bin-path.sh "$1" "$2" "$3"
 }
 
+#默认makefile在上层目录.
+SOURCE_PATH=${PWD}/../
+
 #
 BUILD_PATH=${PWD}
 
@@ -184,7 +187,11 @@ OPTIONS:
     -d < KEY=VALUE | KEY= >
      定义变量及变量赋值。
 
-VARIABLE: 
+VARIABLE:
+
+     SOURCE_PATH=${SOURCE_PATH}
+
+     SOURCE_PATH(makefile所在路径)项目(或方案)路径.
 
      BUILD_PATH=${BUILD_PATH}
 
@@ -328,9 +335,12 @@ source ${SHELLDIR}/configure.d/depend-check-cudnn.in.sh
 #
 source ${SHELLDIR}/configure.d/depend-check-tensorrt.in.sh
 
-
 #提取第三方依整包的所有路径.
 THIRDPARTY_LIB_DIR=$(echo "${EXTRA_LD_FLAGS}" | tr ' ' '\n' | grep "^-L" | sed 's/^-L//' | sort | uniq | tr '\n' ':' | sed 's/:$//')
+
+#保存.
+echo "THIRDPARTY_LIB_DIR=${THIRDPARTY_LIB_DIR}" > ${PWD}/3party-lib-dir.in.sh
+exit_if_error $? "An error occurred while writing '3party-lib-dir.in.sh'." $?
 
 #
 cat >${PWD}/makefile.conf <<EOF
@@ -366,6 +376,18 @@ $(printf "%s\n" "${THIRDPARTY_ENABLE[@]/%/ = yes}")
 EOF
 exit_if_error $? "An error occurred while writing 'makefile.conf'." $?
 
+
+
 #
-echo "THIRDPARTY_LIB_DIR=${THIRDPARTY_LIB_DIR}" > ${PWD}/3party-lib-dir.sh
-exit_if_error $? "An error occurred while writing '3party-lib-dir.sh'." $?
+cat > ${PWD}/makefile <<EOF
+# SHELLKITS generated file: DO NOT EDIT!
+#
+
+#默认的标签必须存在, 否则无参数启动时会无效.
+all:
+
+#万能标签匹配, 转发启动参数. ";" 表示此行为空行.
+%:: ; \$(MAKE) -C ${SOURCE_PATH}  CONF_FILE=${PWD}/makefile.conf \$@
+
+EOF
+exit_if_error $? "An error occurred while writing 'makefile'." $?
