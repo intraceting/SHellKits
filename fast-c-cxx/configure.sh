@@ -164,7 +164,7 @@ COMPILER_CUDA_BIN=""
 
 #
 C_STD="c99"
-CXX_STD="c++11"
+CXX_STD="c++17"
 
 #
 THIRDPARTY_PREFIX="/usr:/usr/local"
@@ -243,7 +243,7 @@ VARIABLE:
      qrencode,eigen3,fastcgi,libuuid,
      unixodbc,hiredis,sqlite3,
      live555,libarchive,nghttp2,
-     ffmpeg,opencv,faiss,onnx,
+     ffmpeg,opencv,faiss,onnx,protobuf
      cuda,cudnn,tensorrt,
      qt5
      
@@ -321,6 +321,8 @@ source ${SHELLDIR}/configure.d/depend-check-curl.in.sh
 source ${SHELLDIR}/configure.d/depend-check-opencv.in.sh
 #
 source ${SHELLDIR}/configure.d/depend-check-onnx.in.sh
+#
+source ${SHELLDIR}/configure.d/depend-check-protobuf.in.sh
 #
 source ${SHELLDIR}/configure.d/depend-check-live555.in.sh
 #
