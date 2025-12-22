@@ -56,7 +56,7 @@ exit 2
 fi
 
 #
-xgettext --force-po --no-wrap --no-location --from-code=UTF-8 -L c++ \
+xgettext  --join-existing --force-po --no-wrap --no-location --from-code=UTF-8 -L c++ \
     --package-name=${PKG_NAME} \
     --package-version=${PKG_VER} \
     --keyword=${KW_PREFIX} \
