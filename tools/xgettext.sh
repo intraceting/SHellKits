@@ -55,6 +55,11 @@ if [ ! -f "${SRC_FILELIST}" ];then
 exit 2
 fi
 
+#没有则先创建空的.
+if [ ! -f "${OUT_POT}" ] && [ ! -L "${OUT_POT}" ] ;then
+> ${OUT_POT}
+fi
+
 #
 xgettext  --join-existing --force-po --no-wrap --no-location --from-code=UTF-8 -L c++ \
     --package-name=${PKG_NAME} \
