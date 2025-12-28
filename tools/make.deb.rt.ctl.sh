@@ -165,7 +165,7 @@ Maintainer: ${VENDOR_NAME}
 Pre-Depends: ${REQUIRE_LIST}
 Description: This is the ${PACK_NAME} component package.
  .
- This package contains the runtime files(bin,doc).
+ This package contains the runtime files(bin, lib, share).
 EOF
 checkReturnCode
 
@@ -173,15 +173,19 @@ checkReturnCode
 echo "#!/bin/sh" > ${OUTPUT}/postinst
 #
 cat ${POST_NAME} >> ${OUTPUT}/postinst
-#
+#空行,退出(0),空行
+echo "" >> ${OUTPUT}/postinst
 echo "exit 0" >> ${OUTPUT}/postinst
+echo "" >> ${OUTPUT}/postinst
 
 #
 echo "#!/bin/sh" > ${OUTPUT}/postrm
 #
 cat ${POSTUN_NAME} >> ${OUTPUT}/postrm
-#
+#空行,退出(0),空行
+echo "" >> ${OUTPUT}/postrm
 echo "exit 0" >> ${OUTPUT}/postrm
+echo "" >> ${OUTPUT}/postrm
 
 #
 chmod 755 ${OUTPUT}/postinst

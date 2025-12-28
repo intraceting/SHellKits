@@ -173,7 +173,7 @@ AutoReqProv: no
 %description
 This is the ${PACK_NAME} component package.
 .
-This package contains the runtime files(bin,doc).
+This package contains the runtime files(bin, lib, share).
 
 EOF
 checkReturnCode
@@ -191,16 +191,17 @@ echo "%post" >> ${OUTPUT}
 echo "#!/bin/sh" >> ${OUTPUT}
 #
 cat ${POST_NAME} >> ${OUTPUT}
-#
+
+#空行,退出(0),空行
+echo "" >> ${OUTPUT}
 echo "exit 0" >> ${OUTPUT}
-#空行
 echo "" >> ${OUTPUT}
 
 echo "%postun" >> ${OUTPUT}
 echo "#!/bin/sh" >> ${OUTPUT}
 #
 cat ${POSTUN_NAME} >> ${OUTPUT}
-#
+#空行,退出(0),空行
+echo "" >> ${OUTPUT}
 echo "exit 0" >> ${OUTPUT}
-#空行
 echo "" >> ${OUTPUT}
