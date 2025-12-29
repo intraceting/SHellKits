@@ -99,6 +99,13 @@ GetLibcVersion()
 }
 
 #
+GetCompilerMultiArch()
+#$1 BIN
+{
+    ${SHELLDIR}/../tools/get-compiler-multiarch.sh "$1" 
+}
+
+#
 SOLUTION_PREFIX="_"
 
 #
@@ -339,7 +346,9 @@ TARGET_ARCH=$(GetCompilerArch ${TARGET_COMPILER_C})
 NATIVE_BITWIDE=$(GetCompilerBitWide ${NATIVE_COMPILER_C})
 TARGET_BITWIDE=$(GetCompilerBitWide ${TARGET_COMPILER_C})
 
-
+#
+NATIVE_MULTIARCH=$(GetCompilerMultiArch ${NATIVE_COMPILER_C})
+TARGET_MULTIARCH=$(GetCompilerMultiArch ${TARGET_COMPILER_C})
 
 #下面输出的本文不能包括注释, 因为eval执令可能不支持注释.
 cat <<EOF
@@ -371,6 +380,8 @@ ${SOLUTION_PREFIX}_NATIVE_ARCH=${NATIVE_ARCH}
 ${SOLUTION_PREFIX}_TARGET_ARCH=${TARGET_ARCH}
 ${SOLUTION_PREFIX}_NATIVE_BITWIDE=${NATIVE_BITWIDE}
 ${SOLUTION_PREFIX}_TARGET_BITWIDE=${TARGET_BITWIDE}
+${SOLUTION_PREFIX}_NATIVE_MULTIARCH=${NATIVE_MULTIARCH}
+${SOLUTION_PREFIX}_TARGET_MULTIARCH=${TARGET_MULTIARCH}
 EOF
 exit_if_error $? "Failed to generate configuration file." $?
 

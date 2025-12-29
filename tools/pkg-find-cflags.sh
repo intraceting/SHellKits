@@ -27,10 +27,10 @@ IFS=':' read -r -a CHK_LIST <<< "$LIBDIR"
 for ONE_PATH in "${CHK_LIST[@]}"; do
 {
     export PKG_CONFIG_LIBDIR=${ONE_PATH}:${ONE_PATH}/lib64/pkgconfig:${ONE_PATH}/lib/pkgconfig:${ONE_PATH}/lib64/${MACHINE}/pkgconfig:${ONE_PATH}/lib/${MACHINE}/pkgconfig:${ONE_PATH}/share/pkgconfig
-    LD_FLAGS=$(pkg-config --cflags ${SONAME} 2>>/dev/null)
+    C_FLAGS=$(pkg-config --cflags ${SONAME} 2>>/dev/null)
     if [ $? -eq 0 ];then
     {
-    	echo "${LD_FLAGS}"
+    	echo "${C_FLAGS}"
         exit 0
     }
     fi

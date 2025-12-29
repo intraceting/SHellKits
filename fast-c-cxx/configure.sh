@@ -343,8 +343,8 @@ source ${SHELLDIR}/configure.d/depend-check-tensorrt.in.sh
 THIRDPARTY_LIB_DIR=$(echo "${EXTRA_LD_FLAGS}" | tr ' ' '\n' | grep "^-L" | sed 's/^-L//' | sort | uniq | tr '\n' ':' | sed 's/:$//')
 
 #保存.
-echo "THIRDPARTY_LIB_DIR=${THIRDPARTY_LIB_DIR}" > ${PWD}/3party-lib-dir.in.sh
-exit_if_error $? "An error occurred while writing '3party-lib-dir.in.sh'." $?
+#echo "THIRDPARTY_LIB_DIR=${THIRDPARTY_LIB_DIR}" > ${PWD}/3party-lib-dir.in.sh
+#exit_if_error $? "An error occurred while writing '3party-lib-dir.in.sh'." $?
 
 #
 cat >${PWD}/makefile.conf <<EOF
@@ -358,6 +358,7 @@ INSTALL_PREFIX ?= ${INSTALL_PREFIX}
 LSB_RELEASE = ${LSB_RELEASE}
 #
 TARGET_PLATFORM = ${FAST_C_CXX_TARGET_PLATFORM}
+TARGET_MULTIARCH = ${FAST_C_CXX_TARGET_MULTIARCH}
 #
 C_STD ?= ${C_STD}
 CXX_STD ?= ${CXX_STD}
