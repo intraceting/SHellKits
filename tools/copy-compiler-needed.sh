@@ -18,7 +18,7 @@ TARGET_PATH=$2
 
 #
 SYSROOT=$(${SHELLDIR}/get-compiler-sysroot.sh ${COMPILER_BIN})
-MACHINE=$(${SHELLDIR}/get-compiler-machine.sh ${COMPILER_BIN})
+MULTIARCH=$(${SHELLDIR}/get-compiler-multiarch.sh ${COMPILER_BIN})
 
 if [ -f ${SYSROOT}/lib64/libgcc_s.so.1 ];then
     mkdir -p ${TARGET_PATH}
@@ -34,11 +34,11 @@ elif [ -f ${SYSROOT}/lib/libgcc_s.so.1 ];then
     cp -fP ${SYSROOT}/lib/libgomp*.so.* ${TARGET_PATH}/
     cp -fP ${SYSROOT}/lib/libstdc++*.so.* ${TARGET_PATH}/
     cp -fP ${SYSROOT}/lib/libatomic*.so.* ${TARGET_PATH}/
-elif [ -f ${SYSROOT}/lib/${MACHINE}/libgcc_s.so.1 ];then
+elif [ -f ${SYSROOT}/lib/${MULTIARCH}/libgcc_s.so.1 ];then
     mkdir -p ${TARGET_PATH}
-    cp -fP ${SYSROOT}/lib/${MACHINE}/libgcc_s*.so.* ${TARGET_PATH}/
-    cp -fP ${SYSROOT}/lib/${MACHINE}/libgfortran*.so.* ${TARGET_PATH}/
-    cp -fP ${SYSROOT}/lib/${MACHINE}/libgomp*.so.* ${TARGET_PATH}/
-    cp -fP ${SYSROOT}/lib/${MACHINE}/libstdc++*.so.* ${TARGET_PATH}/
-    cp -fP ${SYSROOT}/lib/${MACHINE}/libatomic*.so.* ${TARGET_PATH}/
+    cp -fP ${SYSROOT}/lib/${MULTIARCH}/libgcc_s*.so.* ${TARGET_PATH}/
+    cp -fP ${SYSROOT}/lib/${MULTIARCH}/libgfortran*.so.* ${TARGET_PATH}/
+    cp -fP ${SYSROOT}/lib/${MULTIARCH}/libgomp*.so.* ${TARGET_PATH}/
+    cp -fP ${SYSROOT}/lib/${MULTIARCH}/libstdc++*.so.* ${TARGET_PATH}/
+    cp -fP ${SYSROOT}/lib/${MULTIARCH}/libatomic*.so.* ${TARGET_PATH}/
 fi
