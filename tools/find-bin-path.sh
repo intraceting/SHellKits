@@ -18,7 +18,7 @@ fi
 #
 NAME="$1"
 PREFIX="$2"
-MACHINE="$3"
+MULTIARCH="$3"
 
 #拆分路径到数组.
 IFS=':' read -r -a CHK_LIST <<< "${PREFIX}"
@@ -30,21 +30,21 @@ for ONE_PATH in "${CHK_LIST[@]}"; do
     SUB_LIST+=("${ONE_PATH}")
     SUB_LIST+=("${ONE_PATH}/bin")
     SUB_LIST+=("${ONE_PATH}/sbin")
-    SUB_LIST+=("${ONE_PATH}/bin/${MACHINE}")
-    SUB_LIST+=("${ONE_PATH}/sbin/${MACHINE}")
-    SUB_LIST+=("${ONE_PATH}/${MACHINE}")
-    SUB_LIST+=("${ONE_PATH}/${MACHINE}/bin")
-    SUB_LIST+=("${ONE_PATH}/${MACHINE}/sbin")
+    SUB_LIST+=("${ONE_PATH}/bin/${MULTIARCH}")
+    SUB_LIST+=("${ONE_PATH}/sbin/${MULTIARCH}")
+    SUB_LIST+=("${ONE_PATH}/${MULTIARCH}")
+    SUB_LIST+=("${ONE_PATH}/${MULTIARCH}/bin")
+    SUB_LIST+=("${ONE_PATH}/${MULTIARCH}/sbin")
     
     for SUB_PATH in "${SUB_LIST[@]}"; do
     {
     	#
-	if [ -f "${SUB_PATH}/${NAME}" ] || [ -L "${SUB_PATH}/${NAME}" ];then
+	    if [ -f "${SUB_PATH}/${NAME}" ] || [ -L "${SUB_PATH}/${NAME}" ];then
         {
             echo "${SUB_PATH}"
             exit 0
-	}
-	fi
+	    }
+	    fi
     }
     done
 }

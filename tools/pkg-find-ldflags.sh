@@ -18,7 +18,7 @@ fi
 #
 SONAME="$1"
 LIBDIR="$2"
-MACHINE="$3"
+MULTIARCH="$3"
 
 #拆分路径到数组.
 IFS=':' read -r -a CHK_LIST <<< "$LIBDIR"
@@ -26,7 +26,7 @@ IFS=':' read -r -a CHK_LIST <<< "$LIBDIR"
 #
 for ONE_PATH in "${CHK_LIST[@]}"; do
 {
-    export PKG_CONFIG_LIBDIR=${ONE_PATH}:${ONE_PATH}/lib64/pkgconfig:${ONE_PATH}/lib/pkgconfig:${ONE_PATH}/lib64/${MACHINE}/pkgconfig:${ONE_PATH}/lib/${MACHINE}/pkgconfig:${ONE_PATH}/share/pkgconfig
+    export PKG_CONFIG_LIBDIR=${ONE_PATH}:${ONE_PATH}/lib64/pkgconfig:${ONE_PATH}/lib/pkgconfig:${ONE_PATH}/lib64/${MULTIARCH}/pkgconfig:${ONE_PATH}/lib/${MULTIARCH}/pkgconfig:${ONE_PATH}/share/pkgconfig
     LD_FLAGS=$(pkg-config --libs ${SONAME} 2>>/dev/null)
     if [ $? -eq 0 ];then
     {

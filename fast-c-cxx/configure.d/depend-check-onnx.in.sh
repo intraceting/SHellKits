@@ -8,10 +8,10 @@
 CHK=$(CheckKeyword ${WITH_PACKAGE} "onnx")
 if [ ${CHK} -gt 0 ];then
 #
-INC_PATH=$(FindINC_PATH "onnx/onnx_pb.h"  ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MACHINE})
+INC_PATH=$(FindINC_PATH "onnx/onnx_pb.h"  ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
 exit_if_error $? "'onnx' not found." $?
 #
-LIB_PATH=$(FindLIB_PATH onnx ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MACHINE})
+LIB_PATH=$(FindLIB_PATH onnx ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
 exit_if_error $? "'onnx' not found." $?
 #
 EXTRA_CXX_FLAGS="${EXTRA_CXX_FLAGS} -DHAVE_ONNX -I${INC_PATH}"

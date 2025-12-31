@@ -9,10 +9,10 @@
 CHK=$(CheckKeyword ${WITH_PACKAGE} "tensorrt")
 if [ ${CHK} -gt 0 ];then
 #
-INC_PATH=$(FindINC_PATH "NvInfer.h"  ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MACHINE})
+INC_PATH=$(FindINC_PATH "NvInfer.h"  ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
 exit_if_error $? "'tensorrt' not found." $?
 #
-LIB_PATH=$(FindLIB_PATH nvinfer ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MACHINE})
+LIB_PATH=$(FindLIB_PATH nvinfer ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
 exit_if_error $? "'tensorrt' not found." $?
 #
 EXTRA_C_FLAGS="${EXTRA_C_FLAGS} -DHAVE_TENSORRT -I${INC_PATH}"

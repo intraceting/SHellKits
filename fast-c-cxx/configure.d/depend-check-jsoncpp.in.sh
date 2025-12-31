@@ -8,10 +8,10 @@
 CHK=$(CheckKeyword ${WITH_PACKAGE} "jsoncpp")
 if [ ${CHK} -gt 0 ];then
 #
-C_FLAGS=$(FindPKG_CFLAGS jsoncpp ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MACHINE})
+C_FLAGS=$(FindPKG_CFLAGS jsoncpp ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
 exit_if_error $? "'jsoncpp' not found." $?
 #
-LD_FLAGS=$(FindPKG_LDFLAGS jsoncpp ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MACHINE})
+LD_FLAGS=$(FindPKG_LDFLAGS jsoncpp ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
 exit_if_error $? "'jsoncpp' not found." $?
 #
 EXTRA_CXX_FLAGS="${EXTRA_CXX_FLAGS} -DHAVE_JSONCPP ${C_FLAGS}"

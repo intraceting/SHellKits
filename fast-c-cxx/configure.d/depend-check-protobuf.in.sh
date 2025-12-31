@@ -9,10 +9,10 @@
 CHK=$(CheckKeyword ${WITH_PACKAGE} "protobuf")
 if [ ${CHK} -gt 0 ];then
 #
-C_FLAGS=$(FindPKG_CFLAGS protobuf ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MACHINE})
+C_FLAGS=$(FindPKG_CFLAGS protobuf ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
 exit_if_error $? "'protobuf' not found." $?
 #
-LD_FLAGS=$(FindPKG_LDFLAGS protobuf ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MACHINE})
+LD_FLAGS=$(FindPKG_LDFLAGS protobuf ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
 exit_if_error $? "'protobuf' not found." $?
 #
 EXTRA_C_FLAGS="${EXTRA_C_FLAGS} -DHAVE_PROTOBUF ${C_FLAGS}"

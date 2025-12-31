@@ -8,10 +8,10 @@
 CHK=$(CheckKeyword ${WITH_PACKAGE} "openssl")
 if [ ${CHK} -gt 0 ];then
 #
-C_FLAGS=$(FindPKG_CFLAGS openssl ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MACHINE})
+C_FLAGS=$(FindPKG_CFLAGS openssl ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
 exit_if_error $? "'openssl' not found." $?
 #
-LD_FLAGS=$(FindPKG_LDFLAGS openssl ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MACHINE})
+LD_FLAGS=$(FindPKG_LDFLAGS openssl ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
 exit_if_error $? "'openssl' not found." $?
 #
 EXTRA_C_FLAGS="${EXTRA_C_FLAGS} -DHAVE_OPENSSL ${C_FLAGS}"

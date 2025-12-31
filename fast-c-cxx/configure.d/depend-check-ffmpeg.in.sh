@@ -9,10 +9,10 @@
 CHK=$(CheckKeyword ${WITH_PACKAGE} "ffmpeg")
 if [ ${CHK} -gt 0 ];then
 #
-C_FLAGS=$(FindPKG_CFLAGS "libswscale libavutil libavcodec libavformat libavdevice libavfilter libswresample libpostproc"  ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MACHINE})
+C_FLAGS=$(FindPKG_CFLAGS "libswscale libavutil libavcodec libavformat libavdevice libavfilter libswresample libpostproc"  ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
 exit_if_error $? "'libswscale libavutil libavcodec libavformat libavdevice libavfilter libswresample libpostproc' not found." $?
 #
-LD_FLAGS=$(FindPKG_LDFLAGS "libswscale libavutil libavcodec libavformat libavdevice libavfilter libswresample libpostproc" ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MACHINE})
+LD_FLAGS=$(FindPKG_LDFLAGS "libswscale libavutil libavcodec libavformat libavdevice libavfilter libswresample libpostproc" ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
 exit_if_error $? "'libswscale libavutil libavcodec libavformat libavdevice libavfilter libswresample libpostproc' not found." $?
 #
 EXTRA_C_FLAGS="${EXTRA_C_FLAGS} -DHAVE_FFMPEG ${C_FLAGS}"

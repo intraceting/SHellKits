@@ -8,10 +8,10 @@
 CHK=$(CheckKeyword ${WITH_PACKAGE} "libarchive")
 if [ ${CHK} -gt 0 ];then
 #
-C_FLAGS=$(FindPKG_CFLAGS libarchive ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MACHINE})
+C_FLAGS=$(FindPKG_CFLAGS libarchive ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
 exit_if_error $? "'libarchive' not found." $?
 #
-LD_FLAGS=$(FindPKG_LDFLAGS libarchive ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MACHINE})
+LD_FLAGS=$(FindPKG_LDFLAGS libarchive ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
 exit_if_error $? "'libarchive' not found." $?
 #
 EXTRA_C_FLAGS="${EXTRA_C_FLAGS} -DHAVE_ARCHIVE ${C_FLAGS}"

@@ -8,10 +8,10 @@
 CHK=$(CheckKeyword ${WITH_PACKAGE} "faiss")
 if [ ${CHK} -gt 0 ];then
 #
-INC_PATH=$(FindINC_PATH "faiss/Index.h"  ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MACHINE})
+INC_PATH=$(FindINC_PATH "faiss/Index.h"  ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
 exit_if_error $? "'faiss' not found." $?
 #
-LIB_PATH=$(FindLIB_PATH faiss ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MACHINE})
+LIB_PATH=$(FindLIB_PATH faiss ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
 exit_if_error $? "'faiss' not found." $?
 #
 EXTRA_CXX_FLAGS="${EXTRA_CXX_FLAGS} -DHAVE_FAISS -I${INC_PATH}"
