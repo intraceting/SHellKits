@@ -8,10 +8,10 @@
 CHK=$(CheckKeyword ${WITH_PACKAGE} "libmagic")
 if [ ${CHK} -gt 0 ];then
 #
-C_FLAGS=$(FindPKG_CFLAGS libmagic ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
+C_FLAGS=$(FindPKG_CFLAGS libmagic ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
 exit_if_error $? "'libmagic|FILE' not found." $?
 #
-LD_FLAGS=$(FindPKG_LDFLAGS libmagic ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
+LD_FLAGS=$(FindPKG_LDFLAGS libmagic ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
 exit_if_error $? "'libmagic|FILE' not found." $?
 #
 EXTRA_C_FLAGS="${EXTRA_C_FLAGS} -DHAVE_LIBMAGIC ${C_FLAGS}"

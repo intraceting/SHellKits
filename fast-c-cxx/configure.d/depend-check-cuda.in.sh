@@ -8,10 +8,10 @@
 CHK=$(CheckKeyword ${WITH_PACKAGE} "cuda")
 if [ ${CHK} -gt 0 ];then
 #
-INC_PATH=$(FindINC_PATH "cuda.h"  ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
+INC_PATH=$(FindINC_PATH "cuda.h"  ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
 exit_if_error $? "'cuda' not found." $?
 #
-LIB_PATH=$(FindLIB_PATH cudart ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
+LIB_PATH=$(FindLIB_PATH cudart ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
 exit_if_error $? "'cuda' not found." $?
 #
 EXTRA_C_FLAGS="${EXTRA_C_FLAGS} -DHAVE_CUDA -I${INC_PATH}"

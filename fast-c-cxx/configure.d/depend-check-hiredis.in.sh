@@ -8,10 +8,10 @@
 CHK=$(CheckKeyword ${WITH_PACKAGE} "hiredis")
 if [ ${CHK} -gt 0 ];then
 #
-C_FLAGS=$(FindPKG_CFLAGS "hiredis hiredis_ssl" ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
+C_FLAGS=$(FindPKG_CFLAGS "hiredis hiredis_ssl" ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
 exit_if_error $? "'hiredis hiredis_ssl' not found." $?
 #
-LD_FLAGS=$(FindPKG_LDFLAGS "hiredis hiredis_ssl" ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
+LD_FLAGS=$(FindPKG_LDFLAGS "hiredis hiredis_ssl" ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
 exit_if_error $? "'hiredis hiredis_ssl' not found." $?
 #
 EXTRA_C_FLAGS="${EXTRA_C_FLAGS} -DHAVE_HIREDIS ${C_FLAGS}"

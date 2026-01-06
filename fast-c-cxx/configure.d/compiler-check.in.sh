@@ -6,7 +6,7 @@
 ##
 
 #
-(CheckSTD_C "${FAST_C_CXX_TARGET_COMPILER_C}" "${C_STD}")
+(CheckSTD_C "${SHELLKITS_TARGET_COMPILER_C}" "${C_STD}")
 if [ $? -ne 0 ];then
 {
     echo "The compiler(C) supports at least the c99 standard."
@@ -15,7 +15,7 @@ if [ $? -ne 0 ];then
 fi
 
 #
-(CheckSTD_CXX "${FAST_C_CXX_TARGET_COMPILER_CXX}" "${CXX_STD}")
+(CheckSTD_CXX "${SHELLKITS_TARGET_COMPILER_CXX}" "${CXX_STD}")
 if [ $? -ne 0 ];then
 {
     echo "The compiler(C++) supports at least the ${CXX_STD} standard."
@@ -27,7 +27,7 @@ fi
 if [ "${COMPILER_CUDA_BIN}" != "" ];then
 {
     #
-    CheckSTD_NVCC ${COMPILER_CUDA_BIN} ${CXX_STD} "${FAST_C_CXX_TARGET_COMPILER_CXX}"
+    CheckSTD_NVCC ${COMPILER_CUDA_BIN} ${CXX_STD} "${SHELLKITS_TARGET_COMPILER_CXX}"
     if [ $? -ne 0 ];then
     {
         echo "The compiler(CU) supports at least the ${CXX_STD} standard."

@@ -8,10 +8,10 @@
 CHK=$(CheckKeyword ${WITH_PACKAGE} "cudnn")
 if [ ${CHK} -gt 0 ];then
 #
-INC_PATH=$(FindINC_PATH "cudnn.h"  ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
+INC_PATH=$(FindINC_PATH "cudnn.h"  ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
 exit_if_error $? "'cudnn' not found." $?
 #
-LIB_PATH=$(FindLIB_PATH cudnn ${THIRDPARTY_PREFIX} ${FAST_C_CXX_TARGET_MULTIARCH})
+LIB_PATH=$(FindLIB_PATH cudnn ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
 exit_if_error $? "'cudnn' not found." $?
 #
 EXTRA_C_FLAGS="${EXTRA_C_FLAGS} -DHAVE_CUDNN -I${INC_PATH}"
