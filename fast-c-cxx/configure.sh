@@ -167,7 +167,7 @@ C_STD="c99"
 CXX_STD="c++17"
 
 #
-PRIVATE_CONF_PATH="${SOURCE_PATH}/configure.d"
+PRIVATE_CONF_PATH=""
 
 #
 THIRDPARTY_PREFIX="/usr:/usr/local"
@@ -234,7 +234,7 @@ VARIABLE:
 
      COMPILER_CUDA_BIN(CUDA编译器的完整路径)用于编译CUDA代码.
 
-     PRIVATE_CONF_PATH=${PRIVATE_CONF_PATH}
+     PRIVATE_CONF_PATH=\${SOURCE_PATH}/configure.d
 
      PRIVATE_CONF_PATH(私有配置路径)用于存放私有配置文件.
      
@@ -284,6 +284,17 @@ if [ "${SHELLDIR}" == "${PWD}" ];then
 fi
 
 #
+if [ "${PRIVATE_CONF_PATH}" == "" ];then
+PRIVATE_CONF_PATH="${SOURCE_PATH}/configure.d"
+fi
+
+#转换绝对路径.
+SOURCE_PATH=$(realpath -m ${SOURCE_PATH})
+BUILD_PATH=$(realpath -m ${BUILD_PATH})
+INSTALL_PREFIX=$(realpath -m ${INSTALL_PREFIX})
+PRIVATE_CONF_PATH=$(realpath -m ${PRIVATE_CONF_PATH})
+
+#打印编译器环境信息.
 COMPILER_CONF=$(PrintCompilerConf ${COMPILER_PREFIX})
 exit_if_error $? "${COMPILER_CONF}" $?
 
@@ -295,8 +306,14 @@ eval "${COMPILER_CONF}"
 #
 source ${SHELLDIR}/configure.d/compiler-check.in.sh
 
-#
+#查找公共依赖组件.
 DEPEND_FILES=("${SHELLDIR}/configure.d"/depend-check-*.in.sh)
+
+#当私有依赖组件目录有效时,也需要查找一下.
+if [ -d "${PRIVATE_CONF_PATH}" ];then
+    DEPEND_FILES+=("${PRIVATE_CONF_PATH}"/depend-check-*.in.sh)
+fi
+
 #遍历加载并执行.
 for ONE_FILE in "${DEPEND_FILES[@]}"; do
 {
@@ -305,21 +322,6 @@ for ONE_FILE in "${DEPEND_FILES[@]}"; do
     fi
 }
 done 
-
-#
-if [ -d "${PRIVATE_CONF_PATH}" ];then
-{
-    PRIVATE_DEPEND_FILES=("${PRIVATE_CONF_PATH}"/depend-check-*.in.sh)
-    #遍历加载并执行.
-    for ONE_FILE in "${PRIVATE_DEPEND_FILES[@]}"; do
-    {
-        if [ -f "${ONE_FILE}" ] || [ -L "${ONE_FILE}" ];then
-            source ${ONE_FILE}
-        fi
-    }
-    done
-}
-fi 
 
 #set +x
 
