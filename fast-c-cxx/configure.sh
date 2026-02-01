@@ -160,10 +160,10 @@ EXTRA_CXX_FLAGS=""
 EXTRA_LD_FLAGS=""
 
 #
-COMPILER_CUDA_BIN=""
+COMPILER_NVCC=""
 
 #
-COMPILER_QT_BIN=""
+COMPILER_QMAKE=""
 
 #
 C_STD="c99"
@@ -233,13 +233,13 @@ VARIABLE:
 
      EXTRA_LD_FLAGS(编译器的链接参数)用于编译器的目标链接. 
 
-     COMPILER_CUDA_BIN=${COMPILER_CUDA_BIN}
+     COMPILER_NVCC=${COMPILER_NVCC}
 
-     COMPILER_CUDA_BIN(CUDA编译器的完整路径)用于编译CUDA代码.
+     COMPILER_NVCC(CUDA编译器的完整路径)用于编译CUDA代码.
 
-     COMPILER_QT_BIN=${COMPILER_QT_BIN}
+     COMPILER_QMAKE=${COMPILER_QMAKE}
 
-     COMPILER_QT_BIN(QT编译器的完整路径)用于编译QT代码.
+     COMPILER_QMAKE(QT编译器的完整路径)用于编译QT代码.
 
      PRIVATE_CONF_PATH=\${SOURCE_PATH}/configure.d
 
@@ -258,7 +258,8 @@ VARIABLE:
      unixodbc,hiredis,sqlite3,
      live555,libarchive,nghttp2,
      ffmpeg,opencv,faiss,onnx,protobuf
-     cuda,cudnn,tensorrt
+     cuda,cudnn,tensorrt,
+     qt5,
      
      
 EOF
@@ -360,9 +361,9 @@ CC = ${SHELLKITS_TARGET_COMPILER_C}
 CXX = ${SHELLKITS_TARGET_COMPILER_CXX}
 AR = ${SHELLKITS_TARGET_COMPILER_AR}
 #
-NVCC = ${COMPILER_CUDA_BIN}
+NVCC = ${COMPILER_NVCC}
 #
-QMAKE = ${COMPILER_QT_BIN}
+QMAKE = ${COMPILER_QMAKE}
 #
 EXTRA_C_FLAGS = ${EXTRA_C_FLAGS}
 EXTRA_CXX_FLAGS = ${EXTRA_CXX_FLAGS}
