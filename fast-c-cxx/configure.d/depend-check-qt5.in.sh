@@ -20,7 +20,7 @@ if [ $? -eq 0 ];then
 COMPILER_QMAKE=$(realpath -s "${BIN_PATH}/qmake-qt5")
 else 
 BIN_PATH=$(FindBIN_PATH qmake ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
-exit_if_error $? "'qmake(qt5)' not found." $?
+exit_if_error $? "'qmake(Qt5)' not found." $?
 COMPILER_QMAKE=$(realpath -s "${BIN_PATH}/qmake")
 fi
 fi
