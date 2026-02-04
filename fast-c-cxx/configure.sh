@@ -311,9 +311,6 @@ eval "${COMPILER_CONF}"
 
 #set -x
 
-#
-source ${SHELLDIR}/configure.d/compiler-check.in.sh
-
 #查找公共依赖组件.
 DEPEND_FILES=("${SHELLDIR}/configure.d"/depend-check-*.in.sh)
 
@@ -330,6 +327,9 @@ for ONE_FILE in "${DEPEND_FILES[@]}"; do
     fi
 }
 done 
+
+#
+source ${SHELLDIR}/configure.d/compiler-check.in.sh
 
 #set +x
 
