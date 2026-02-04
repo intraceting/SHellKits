@@ -22,7 +22,7 @@ else
 BIN_PATH=$(FindBIN_PATH qmake ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
 exit_if_error $? "'qmake(Qt5)' not found." $?
 VER_MAJOR=$(${BIN_PATH}/qmake -query QT_VERSION 2>/dev/null | tr -cd '0-9.' | cut -d . -f 1)
-if [ ${VER_MAJOR} -ne 5 ]then
+if [ ${VER_MAJOR} -ne 5 ];then
 exit_if_error 1 "'qmake(Qt5)' not found." 1
 else
 COMPILER_QMAKE=$(realpath -s "${BIN_PATH}/qmake")
