@@ -15,7 +15,7 @@ exit_if_error $? "'tensorrt' not found." $?
 LIB_PATH=$(FindLIB_PATH nvinfer ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
 exit_if_error $? "'tensorrt' not found." $?
 #
-EXTRA_C_FLAGS="${EXTRA_C_FLAGS} -DHAVE_TENSORRT -I${INC_PATH}"
+EXTRA_CXX_FLAGS="${EXTRA_CXX_FLAGS} -DHAVE_TENSORRT -I${INC_PATH}"
 EXTRA_LD_FLAGS="${EXTRA_LD_FLAGS} -lnvinfer -lnvinfer_plugin -L${LIB_PATH}"
 THIRDPARTY_ENABLE+=("HAVE_TENSORRT")
 fi

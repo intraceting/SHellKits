@@ -16,6 +16,7 @@ exit_if_error $? "'cuda' not found." $?
 #
 if [ "${COMPILER_NVCC}" == "" ];then
 BIN_PATH=$(FindBIN_PATH nvcc ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
+exit_if_error $? "'nvcc' not found." $?
 COMPILER_NVCC=$(realpath -s "${BIN_PATH}/nvcc")
 fi
 #

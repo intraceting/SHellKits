@@ -16,12 +16,18 @@ exit_if_error $? "'Qt5' not found." $?
 #
 if [ "${COMPILER_QMAKE}" == "" ];then
 BIN_PATH=$(FindBIN_PATH qmake ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
+if [ $? -eq 0 ];then
+COMPILER_QMAKE=$(realpath -s "${BIN_PATH}/qmake-qt5")
+else 
+BIN_PATH=$(FindBIN_PATH qmake ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
+exit_if_error $? "'qmake(qt5)' not found." $?
 COMPILER_QMAKE=$(realpath -s "${BIN_PATH}/qmake")
 fi
+fi
 #
-#EXTRA_C_FLAGS="${EXTRA_C_FLAGS} -DHAVE_QT"
+#EXTRA_CXX_FLAGS="${EXTRA_CXX_FLAGS} -DHAVE_QT"
 #EXTRA_LD_FLAGS="${EXTRA_LD_FLAGS} -L${LIB_PATH}"
-EXTRA_C_FLAGS="${EXTRA_C_FLAGS} -DHAVE_QT"
+EXTRA_CXX_FLAGS="${EXTRA_CXX_FLAGS} -DHAVE_QT"
 EXTRA_LD_FLAGS="${EXTRA_LD_FLAGS} "
 THIRDPARTY_ENABLE+=("HAVE_QT")
 fi
