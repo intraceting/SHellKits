@@ -7,12 +7,12 @@
 
 CHK=$(CheckKeyword ${WITH_PACKAGE} "qt5")
 if [ ${CHK} -gt 0 ];then
-#
-INC_PATH=$(FindINC_PATH "QtCore/QObject"  ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
-exit_if_error $? "'Qt5' not found." $?
-#
-LIB_PATH=$(FindLIB_PATH Qt5Core ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
-exit_if_error $? "'Qt5' not found." $?
+# #
+# INC_PATH=$(FindINC_PATH "QtCore/QObject"  ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
+# exit_if_error $? "'Qt5' not found." $?
+# #
+# LIB_PATH=$(FindLIB_PATH Qt5Core ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
+# exit_if_error $? "'Qt5' not found." $?
 #
 if [ "${COMPILER_QMAKE}" == "" ];then
 BIN_PATH=$(FindBIN_PATH qmake ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
