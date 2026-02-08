@@ -7,37 +7,29 @@
 
 CHK=$(CheckKeyword ${WITH_PACKAGE} "qt5")
 if [ ${CHK} -gt 0 ];then
-# #
-# INC_PATH=$(FindINC_PATH "QtCore/QObject"  ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
-# exit_if_error $? "'Qt5' not found." $?
-# #
-# LIB_PATH=$(FindLIB_PATH Qt5Core ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
-# exit_if_error $? "'Qt5' not found." $?
 #
-if [ "${COMPILER_QMAKE}" == "" ];then
+if [ "${COMPILER_QMAKE_QT5}" == "" ];then
 {
     BIN_PATH=$(FindBIN_PATH qmake-qt5 ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
     if [ $? -eq 0 ];then
-        COMPILER_QMAKE=$(realpath -s "${BIN_PATH}/qmake-qt5")
+        COMPILER_QMAKE_QT5=$(realpath -s "${BIN_PATH}/qmake-qt5")
     else 
     {
         BIN_PATH=$(FindBIN_PATH qmake ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
         exit_if_error $? "'qmake(Qt5)' not found." $?
-        COMPILER_QMAKE=$(realpath -s "${BIN_PATH}/qmake")
+        COMPILER_QMAKE_QT5=$(realpath -s "${BIN_PATH}/qmake")
     }
     fi
 }
 fi
 #
-QT_MAJOR_VER=$(${COMPILER_QMAKE} -query QT_VERSION 2>>/dev/null | tr -cd '0-9.' | cut -d . -f 1)
-if [ "${QT_MAJOR_VER}" == "" ] || [ ${QT_MAJOR_VER} -ne 5 ];then
+QT5_MAJOR_VER=$(${COMPILER_QMAKE_QT5} -query QT_VERSION 2>>/dev/null | tr -cd '0-9.' | cut -d . -f 1)
+if [ "${QT5_MAJOR_VER}" == "" ] || [ ${QT5_MAJOR_VER} -ne 5 ];then
 exit_if_error 1 "'qmake(Qt5)' not found." 1
 fi
 
 #
-#EXTRA_CXX_FLAGS="${EXTRA_CXX_FLAGS} -DHAVE_QT"
-#EXTRA_LD_FLAGS="${EXTRA_LD_FLAGS} -L${LIB_PATH}"
-EXTRA_CXX_FLAGS="${EXTRA_CXX_FLAGS} -DHAVE_QT"
+EXTRA_CXX_FLAGS="${EXTRA_CXX_FLAGS} -DHAVE_QT5"
 EXTRA_LD_FLAGS="${EXTRA_LD_FLAGS} "
-THIRDPARTY_ENABLE+=("HAVE_QT")
+THIRDPARTY_ENABLE+=("HAVE_QT5")
 fi

@@ -20,6 +20,10 @@ exit_if_error $? "'nvcc' not found." $?
 COMPILER_NVCC=$(realpath -s "${BIN_PATH}/nvcc")
 fi
 #
+CheckSTD_NVCC ${COMPILER_NVCC} ${CXX_STD} "${SHELLKITS_TARGET_COMPILER_CXX}"
+exit_if_error $? "The compiler(${COMPILER_NVCC}) supports at least the ${CXX_STD} standard." $?
+
+#
 EXTRA_C_FLAGS="${EXTRA_C_FLAGS} -DHAVE_CUDA -I${INC_PATH}"
 EXTRA_LD_FLAGS="${EXTRA_LD_FLAGS} -lcublasLt -lcublas -lcudart -lnppig -lnppc -lnppial -lnppicc -lnppidei -lnppif -lnppim -lnppisu -lnpps -lnvjpeg -lcuda -L${LIB_PATH} -L${LIB_PATH}/stubs"
 THIRDPARTY_ENABLE+=("HAVE_CUDA")

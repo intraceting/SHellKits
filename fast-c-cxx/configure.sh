@@ -163,7 +163,8 @@ EXTRA_LD_FLAGS=""
 COMPILER_NVCC=""
 
 #
-COMPILER_QMAKE=""
+COMPILER_QMAKE_QT5=""
+COMPILER_QMAKE_QT6=""
 
 #
 C_STD="c99"
@@ -237,9 +238,13 @@ VARIABLE:
 
      COMPILER_NVCC(CUDA编译器的完整路径)用于编译CUDA代码.
 
-     COMPILER_QMAKE=${COMPILER_QMAKE}
+     COMPILER_QMAKE_QT5=${COMPILER_QMAKE_QT5}
 
-     COMPILER_QMAKE(QT编译器的完整路径)用于编译QT代码.
+     COMPILER_QMAKE_QT5(Qt5编译器的完整路径)用于编译Qt5代码.
+
+     COMPILER_QMAKE_QT6=${COMPILER_QMAKE_QT6}
+
+     COMPILER_QMAKE_QT6(Qt6编译器的完整路径)用于编译Qt6代码.
 
      PRIVATE_CONF_PATH=\${SOURCE_PATH}/configure.d
 
@@ -259,7 +264,7 @@ VARIABLE:
      live555,libarchive,nghttp2,
      ffmpeg,opencv,faiss,onnx,protobuf
      cuda,cudnn,tensorrt,
-     qt5,
+     qt5,qt6
      
      
 EOF
@@ -363,7 +368,8 @@ AR = ${SHELLKITS_TARGET_COMPILER_AR}
 #
 NVCC = ${COMPILER_NVCC}
 #
-QMAKE = ${COMPILER_QMAKE}
+QMAKE_QT5 = ${COMPILER_QMAKE_QT5}
+QMAKE_QT6 = ${COMPILER_QMAKE_QT6}
 #
 EXTRA_C_FLAGS = ${EXTRA_C_FLAGS}
 EXTRA_CXX_FLAGS = ${EXTRA_CXX_FLAGS}
