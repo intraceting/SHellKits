@@ -260,7 +260,7 @@ VARIABLE:
      lz4,jsonc,jsoncpp,
      libmagic,openssl,curl,
      qrencode,eigen3,fastcgi,libuuid,
-     unixodbc,hiredis,sqlite3,
+     icu,unixodbc,hiredis,sqlite3,
      live555,libarchive,nghttp2,
      ffmpeg,opencv,faiss,onnx,protobuf
      cuda,cudnn,tensorrt,
