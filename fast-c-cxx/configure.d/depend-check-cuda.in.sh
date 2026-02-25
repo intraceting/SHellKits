@@ -25,6 +25,10 @@ exit_if_error $? "The compiler(${COMPILER_NVCC}) supports at least the ${CXX_STD
 
 #
 EXTRA_C_FLAGS="${EXTRA_C_FLAGS} -DHAVE_CUDA -I${INC_PATH}"
-EXTRA_LD_FLAGS="${EXTRA_LD_FLAGS} -lcublasLt -lcublas -lcudart -lnppig -lnppc -lnppial -lnppicc -lnppidei -lnppif -lnppim -lnppisu -lnpps -lnvjpeg -lcuda -L${LIB_PATH} -L${LIB_PATH}/stubs"
+if [ "${SHELLKITS_TARGET_PLATFORM}" == "x86_64" ];then
+EXTRA_LD_FLAGS="${EXTRA_LD_FLAGS} -lcublasLt -lcublas -lcudart -lnppig -lnppc -lnppial -lnppicc -lnppidei -lnppif -lnppim -lnppisu -lnpps -lcuda -lnvjpeg -L${LIB_PATH} -L${LIB_PATH}/stubs"
+else 
+EXTRA_LD_FLAGS="${EXTRA_LD_FLAGS} -lcublasLt -lcublas -lcudart -lnppig -lnppc -lnppial -lnppicc -lnppidei -lnppif -lnppim -lnppisu -lnpps -lcuda -L${LIB_PATH} -L${LIB_PATH}/stubs"
+fi 
 THIRDPARTY_ENABLE+=("HAVE_CUDA")
 fi
