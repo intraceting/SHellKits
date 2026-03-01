@@ -289,8 +289,12 @@ do
     esac
 done
 
+#
+TMP_HOME_A=$(realpath -s "${SHELLDIR}")
+TMP_HOME_B=$(realpath -s "${PWD}")
+
 #必须在项目之外运行此脚本.
-if [ "${SHELLDIR}" == "${PWD}" ];then
+if [ "${TMP_HOME_A}" == "${TMP_HOME_B}" ];then
 {
     exit_if_error 1 "This script must be run outside of the project." 1
 }
