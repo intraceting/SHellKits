@@ -27,6 +27,11 @@ IFS=':' read -r -a CHK_LIST <<< "${PREFIX}"
 for ONE_PATH in "${CHK_LIST[@]}"; do
 {
     #
+    if [ "${ONE_PATH}" == "" ];then
+        continue;
+    fi
+
+    #
     SUB_LIST+=("${ONE_PATH}")
     SUB_LIST+=("${ONE_PATH}/include")
     SUB_LIST+=("${ONE_PATH}/include/${MULTIARCH}")
