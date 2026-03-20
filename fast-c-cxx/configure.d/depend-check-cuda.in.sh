@@ -14,6 +14,11 @@ exit_if_error $? "'cuda' not found." $?
 LIB_PATH=$(FindLIB_PATH cudart ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
 exit_if_error $? "'cuda' not found." $?
 #
+LIB2_PATH=$(FindLIB_PATH nvjpeg ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
+if [ $? -ne 0 ];then
+LIB2_PATH=""
+fi
+#
 if [ "${COMPILER_NVCC}" == "" ];then
 BIN_PATH=$(FindBIN_PATH nvcc ${THIRDPARTY_PREFIX} ${SHELLKITS_TARGET_MULTIARCH})
 exit_if_error $? "'nvcc' not found." $?
@@ -25,10 +30,9 @@ exit_if_error $? "The compiler(${COMPILER_NVCC}) supports at least the ${CXX_STD
 
 #
 EXTRA_C_FLAGS="${EXTRA_C_FLAGS} -DHAVE_CUDA -I${INC_PATH}"
-if [ "${SHELLKITS_TARGET_PLATFORM}" == "x86_64" ];then
-EXTRA_LD_FLAGS="${EXTRA_LD_FLAGS} -lcublasLt -lcublas -lcudart -lnppig -lnppc -lnppial -lnppicc -lnppidei -lnppif -lnppim -lnppisu -lnpps -lcuda -lnvjpeg -L${LIB_PATH} -L${LIB_PATH}/stubs"
-else 
 EXTRA_LD_FLAGS="${EXTRA_LD_FLAGS} -lcublasLt -lcublas -lcudart -lnppig -lnppc -lnppial -lnppicc -lnppidei -lnppif -lnppim -lnppisu -lnpps -lcuda -L${LIB_PATH} -L${LIB_PATH}/stubs"
-fi 
+if [ -d "${LIB2_PATH}" ];then
+EXTRA_LD_FLAGS="${EXTRA_LD_FLAGS} -lnvjpeg -L${LIB2_PATH}"
+fi
 THIRDPARTY_ENABLE+=("HAVE_CUDA")
 fi

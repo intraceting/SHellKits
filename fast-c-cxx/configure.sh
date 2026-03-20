@@ -136,6 +136,15 @@ FindBIN_PATH()
     ${SHELLDIR}/../tools/find-bin-path.sh "$1" "$2" "$3"
 }
 
+#
+FindETC_PATH()
+#$1 "NAME [NAME ...]"
+#$2 "PREFIX[:PREFIX:...]"
+#$3 "MACHINE"
+{
+    ${SHELLDIR}/../tools/find-etc-path.sh "$1" "$2" "$3"
+}
+
 #默认makefile在上层目录.
 SOURCE_PATH=${PWD}/../
 
@@ -263,7 +272,7 @@ VARIABLE:
      icu,unixodbc,hiredis,sqlite3,
      live555,libarchive,nghttp2,
      ffmpeg,opencv,faiss,onnx,protobuf
-     cuda,cudnn,tensorrt,
+     cuda,cudnn,tensorrt,MMAPI
      qt5,qt6
      
      
@@ -384,7 +393,8 @@ EXTRA_RPATH = ${THIRDPARTY_LIB_DIR}
 SHELLKITS_HOME = $(realpath -m "${SHELLDIR}/../")
 #
 $(printf "%s\n" "${THIRDPARTY_ENABLE[@]/%/ = yes}")
-
+#
+MMAPI_VERSION=${MMAPI_VERSION}
 #
 EOF
 exit_if_error $? "An error occurred while writing 'makefile.conf'." $?
