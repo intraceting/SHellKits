@@ -9,7 +9,13 @@
 SHELLDIR=$(cd `dirname $0`; pwd)
 
 #在VSCODE环境中，把当前脚本的路径作为"miDebuggerPath"字段的值。
-#例："miDebuggerPath": "${workspaceFolder}/tools/sudo-gdb.sh",
+#例："miDebuggerPath": "${workspaceFolder}/tools/valgrind.sh",
 
 #
-pkexec --user root /usr/bin/gdb $@
+#set -x
+
+#
+/usr/bin/valgrind --leak-check=full --show-leak-kinds=all $@
+
+#
+#set +x
