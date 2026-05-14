@@ -266,7 +266,7 @@ VARIABLE:
      WITH_PACKAGE=${WITH_PACKAGE}
 
      WITH_PACKAGE(依赖组件列表)支持以下关键字:
-     lz4,jsonc,jsoncpp,
+     lz4,iconv,jsonc,jsoncpp,
      libmagic,openssl,curl,
      qrencode,eigen3,fastcgi,libuuid,
      icu,unixodbc,hiredis,sqlite3,
