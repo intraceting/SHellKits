@@ -12,6 +12,8 @@
 #define SQLITE_HAS_CODEC
 #endif //SQLITE_HAS_CODEC
 #include <sqlite3.h>
+
+
 //
 int main()
 {
