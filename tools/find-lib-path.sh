@@ -23,6 +23,28 @@ MULTIARCH="$3"
 #拆分路径到数组.
 IFS=':' read -r -a CHK_LIST <<< "${PREFIX}"
 
+#拆分到数组.
+IFS='-' read -r -a MA_ITEM <<< "${MULTIARCH}"
+
+#
+if [ "${MA_ITEM[0]}" == "x86_64" ];then
+{
+    BITWIDE="64"
+}
+elif [ "${MA_ITEM[0]}" == "aarch64" ] || [ "${MA_ITEM[0]:0:5}" == "armv8" ];then
+{
+    BITWIDE="64"
+}
+elif [ "${MA_ITEM[0]}" == "arm" ] || [ "${MA_ITEM[0]:0:5}" == "armv7" ];then
+{
+    BITWIDE="32"
+}
+else
+{
+    BITWIDE=""
+}
+fi
+
 #
 for ONE_PATH in "${CHK_LIST[@]}"; do
 {
@@ -33,12 +55,9 @@ for ONE_PATH in "${CHK_LIST[@]}"; do
 
     #
     SUB_LIST+=("${ONE_PATH}")
-    SUB_LIST+=("${ONE_PATH}/lib64")
+    SUB_LIST+=("${ONE_PATH}/lib${BITWIDE}")
     SUB_LIST+=("${ONE_PATH}/lib")
-    SUB_LIST+=("${ONE_PATH}/lib64/${MULTIARCH}")
     SUB_LIST+=("${ONE_PATH}/lib/${MULTIARCH}")
-    SUB_LIST+=("${ONE_PATH}/${MULTIARCH}")
-    SUB_LIST+=("${ONE_PATH}/${MULTIARCH}/lib64")
     SUB_LIST+=("${ONE_PATH}/${MULTIARCH}/lib")
     
     for SUB_PATH in "${SUB_LIST[@]}"; do

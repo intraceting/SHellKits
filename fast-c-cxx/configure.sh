@@ -145,6 +145,16 @@ FindETC_PATH()
     ${SHELLDIR}/../tools/find-etc-path.sh "$1" "$2" "$3"
 }
 
+#
+Check_SQLCipher()
+# $1 "COMPILER"
+# $2 "STD"
+# $3 "CASE"
+# $4 "PREFIX[:PREFIX:...]"
+{
+    ${SHELLDIR}/../tools/check-sqlcipher.sh "$1" "$2" "$3" "$4"
+}
+
 #默认makefile在上层目录.
 SOURCE_PATH=${PWD}/../
 
@@ -269,7 +279,7 @@ VARIABLE:
      lz4,libiconv,jsonc,jsoncpp,
      libmagic,openssl,curl,
      qrencode,eigen3,fastcgi,libuuid,
-     icu,unixodbc,hiredis,sqlite3,
+     icu,unixodbc,hiredis,sqlite3,sqlcipher
      live555,libarchive,nghttp2,
      ffmpeg,opencv,faiss,onnx,protobuf
      cuda,cudnn,tensorrt,MMAPI
