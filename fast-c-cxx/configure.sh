@@ -312,7 +312,7 @@ done
 TMP_HOME_A=$(realpath -s "${SHELLDIR}")
 TMP_HOME_B=$(realpath -s "${PWD}")
 
-#必须在项目之外运行此脚本.
+#不允许脚本所在目录运行.
 if [ "${TMP_HOME_A}" == "${TMP_HOME_B}" ];then
 {
     exit_if_error 1 "This script must be run outside of the project." 1
