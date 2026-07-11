@@ -369,7 +369,17 @@ THIRDPARTY_LIB_DIR=$(echo "${EXTRA_LD_FLAGS}" | tr ' ' '\n' | grep "^-L" | sed '
 #exit_if_error $? "An error occurred while writing '3party-lib-dir.in.sh'." $?
 
 #
-cat >${PWD}/makefile.conf <<EOF
+MK_CONF=${PWD}/makefile.conf
+MK_FILE=${PWD}/makefile
+
+if [ -f ${MK_FILE} ] || [ -f ${MK_FILE} ];then
+{
+    exit_if_error 1 "The file '${MK_FILE}' or '${MK_FILE}' already exists. Please change the path or delete the existing file." 1
+}
+fi
+
+#
+cat >${MK_CONF} <<EOF
 #
 BUILD_PATH ?= ${BUILD_PATH}
 #
@@ -412,7 +422,7 @@ exit_if_error $? "An error occurred while writing 'makefile.conf'." $?
 
 
 #
-cat > ${PWD}/makefile <<EOF
+cat > ${MK_FILE} <<EOF
 # SHELLKITS generated file: DO NOT EDIT!
 #
 
@@ -420,7 +430,7 @@ cat > ${PWD}/makefile <<EOF
 all:
 
 #万能标签匹配, 转发启动参数. ";" 表示此行为空行.
-%:: ; \$(MAKE) -C ${SOURCE_PATH}  CONF_FILE=${PWD}/makefile.conf \$@
+%:: ; \$(MAKE) -C ${SOURCE_PATH}  CONF_FILE=${MK_CONF} \$@
 
 EOF
 exit_if_error $? "An error occurred while writing 'makefile'." $?
