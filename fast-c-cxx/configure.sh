@@ -372,9 +372,9 @@ THIRDPARTY_LIB_DIR=$(echo "${EXTRA_LD_FLAGS}" | tr ' ' '\n' | grep "^-L" | sed '
 MK_CONF=${PWD}/makefile.conf
 MK_FILE=${PWD}/makefile
 
-if [ -f ${MK_FILE} ] || [ -f ${MK_FILE} ];then
+if [ -f ${MK_CONF} ] || [ -f ${MK_FILE} ];then
 {
-    exit_if_error 1 "The file '${MK_FILE}' or '${MK_FILE}' already exists. Please change the path or delete the existing file." 1
+    exit_if_error 1 "The file '${MK_CONF}' or '${MK_FILE}' already exists. Please change the path or delete the existing file." 1
 }
 fi
 
