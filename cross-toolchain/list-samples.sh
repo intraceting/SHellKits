@@ -1,10 +1,10 @@
 #!/bin/bash
 #
-# This file is part of TOOLCHAIN.
+# This file is part of SHELLKITS.
 #  
-# Copyright (c) 2026 The TOOLCHAIN project authors. All Rights Reserved.
+# Copyright (c) 2026 The SHELLKITS project authors. All Rights Reserved.
 ##
-
+#
 #
 SHELLDIR=$(cd `dirname "$0"`; pwd)
 
