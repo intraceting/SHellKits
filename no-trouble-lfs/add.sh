@@ -5,7 +5,6 @@
 # Copyright (c) 2026 The SHELLKITS project authors. All Rights Reserved.
 ##
 #
-#
 SHELLDIR=$(cd `dirname "$0"`; pwd)
 
 #
@@ -49,8 +48,7 @@ TOP_PATH=$(${SHELLDIR}/locate.sh "${MANIFEST_NAME}")
 
 #
 if [ "${TOP_PATH}" == "" ];then
-    echo "未初始化."
-    exit 1
+    exit_if_error 1 "The no-trouble-lfs environment is not initialized." 1
 fi
 
 #
@@ -73,10 +71,19 @@ while IFS= read -r ONE_FILE; do
     ONE_FILE="${ONE_FILE%"${ONE_FILE##*[![:space:]]}"}"
 
     # 过滤清洗后可能产生的空行.
-    if [ -z "${ONE_FILE}" ];then
+    if [ "${ONE_FILE}" == "" ];then
         continue
     fi
 
-    echo "有效数据行: [${ONE_FILE}]"
+    if [ -f "${TOP_PATH}/${ONE_FILE}" ];then
+    {
+        ${SHELLDIR}/backup.sh "${REPOSITORY_FILE}" "${TOP_PATH}" "${ONE_FILE}"
+        exit_if_error $? "" $?
+    }
+    else 
+    {
+        echo "忽略(仅支持普通文件): '${ONE_FILE}'"
+    }
+    fi
 }
 done < "${MANIFEST_FILE}"

@@ -5,7 +5,6 @@
 # Copyright (c) 2026 The SHELLKITS project authors. All Rights Reserved.
 ##
 #
-#
 SHELLDIR=$(cd `dirname "$0"`; pwd)
 
 #
@@ -42,20 +41,23 @@ fi
 
 #检查参数.
 if [ "${#}" -ne 3 ]; then
-    echo "使用方法: ${0} <备份目录> <源文件> <源前缀>"
+    echo "使用方法: ${0} <备份根路径> <原根路径> <原文件路径> "
     exit 1
 fi
 
 #去掉冗余层, 但不要展开符号链接.
 DST_PATH=$(realpath -s -m "${1}")
-SRC_FILE=$(realpath -s -m "${2}")
-SRC_PERFIX=$(realpath -s -m "${3}")
+SRC_PATH=$(realpath -s -m "${2}")
+SRC_SUFFIX="${3}"
+
+#拼接原文件完整路径.
+SRC_FILE=$(realpath -s -m "${SRC_PATH}/${SRC_SUFFIX}")
 
 #提取源文件名.
 SRC_NAME="${SRC_FILE##*/}"
 
-#提取源文件相对路径,并接到备份目录后面.
-DST_FILE="${DST_PATH}/${SRC_FILE#${SRC_PERFIX}}"
+#拼接备份文件完整路径.
+DST_FILE=$(realpath -s -m "${DST_PATH}/${SRC_SUFFIX}")
 
 #提取备份文件上级路径.
 DST_PERV_PATH="${DST_FILE%/*}"
@@ -69,10 +71,11 @@ DST_VOLUME_PERFIX="${DST_FILE}/${SRC_NAME}-shellkits.rawdata"
 #备份文件的属性文件.
 DST_ATTR_FILE="${DST_FILE}-shellkits.attribute.txt"
 
-#
+
 # echo "DST_PATH=${DST_PATH}"
+# echo "SRC_SUFFIX=${SRC_SUFFIX}"
+# echo "SRC_PATH=${SRC_PATH}"
 # echo "SRC_FILE=${SRC_FILE}"
-# echo "SRC_PERFIX=${SRC_PERFIX}"
 # echo "SRC_NAME=${SRC_NAME}"
 # echo "DST_FILE=${DST_FILE}"
 # echo "DST_PERV_PATH=${DST_PERV_PATH}"
@@ -107,11 +110,11 @@ if [ "${CHKSUM_DATA_NEW}" == "${CHKSUM_DATA_OLD}" ];then
         exit_if_error $? "备份空间('${DST_PATH}')不足或无权限." $?
 
         #
-        echo "同步(属性有更新): '${SRC_FILE}'"
+        echo "同步(属性有更新): '${SRC_SUFFIX}'"
     }
     else
     {
-        echo "跳过(内容无更新): '${SRC_FILE}'"
+        echo "跳过(内容无更新): '${SRC_SUFFIX}'"
     }
     fi
 }
@@ -122,21 +125,21 @@ else
 
     #如果目录存在则删除所有旧的备份, 否则创建源名字同名目录.
     if [ -d "${DST_FILE}" ];then
-        rm -f "${DST_FILE}/*"
+        rm -f "${DST_FILE}"/*-shellkits.rawdata.???
     else
         mkdir -p "${DST_FILE}"
     fi
 
-    #分卷备份, 每卷10MB.
-    7z a -mx=0 -v10m -y "${DST_VOLUME_PERFIX}" "${SRC_FILE}" > /dev/null 2>&1
-    exit_if_error $? "备份空间('${DST_PATH}')不足或无权限." $?
+    #分卷备份, 每卷5MB.
+    7z a -mx=0 -v5m -y "${DST_VOLUME_PERFIX}" "${SRC_FILE}" > /dev/null 2>&1
+    exit_if_error $? "备份失败(空间不足或无权限): '${SRC_SUFFIX}'" $?
  
     #保存属性.
     echo "${PERM_DATA_NEW}" > "${DST_ATTR_FILE}"
     #保存校验码.
     echo "${CHKSUM_DATA_NEW}" > "${DST_CHKSUM_FILE}"
 
-    echo "备份完成: ${SRC_FILE}"
+    echo "备份完成: '${SRC_SUFFIX}'"
 }
 fi
 

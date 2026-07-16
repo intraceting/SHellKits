@@ -5,7 +5,6 @@
 # Copyright (c) 2026 The SHELLKITS project authors. All Rights Reserved.
 ##
 #
-#
 SHELLDIR=$(cd `dirname "$0"`; pwd)
 
 #
@@ -38,13 +37,12 @@ CROSSTOOL_BIN=$(which ct-ng)
 TMP_HOME_A=$(realpath -s "${SHELLDIR}")
 TMP_HOME_B=$(realpath -s "${PWD}")
 
-#
+#不允许脚本所在目录运行.
 if [ "${TMP_HOME_A}" == "${TMP_HOME_B}" ];then
-CROSSTOOL_HOME=${PWD}/cross-toolchain/
-else 
-CROSSTOOL_HOME=${PWD}/
+{
+    exit_if_error 1 "Scripts cannot be run from the directory where they are located." 1
+}
 fi
-
 
 #
 if [ ! -f "${CROSSTOOL_BIN}" ] && [ ! -L "${CROSSTOOL_BIN}" ];then

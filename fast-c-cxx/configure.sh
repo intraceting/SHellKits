@@ -5,8 +5,6 @@
 # Copyright (c) 2025 The SHELLKITS project authors. All Rights Reserved.
 # 
 ##
-
-#
 SHELLDIR=$(cd `dirname "$0"`; pwd)
 
 
