@@ -61,8 +61,8 @@ if [ "${#}" -ne 2 ]; then
 fi
 
 # 获取源目录和目标目录的绝对路径
-SRC_DIR=$(realpath -m "${1}")
-DST_DIR=$(realpath -m "${2}")
+SRC_DIR=$(realpath -s -m "${1}")
+DST_DIR=$(realpath -s -m "${2}")
 
 #仅备份符号链接或普通文件.
-find "${SRC_DIR}/" \( -type l -o -type f \) -exec "${SHELLDIR}/backup-single.sh" "${DST_DIR}" {} "${SRC_DIR}/" \;
+find "${SRC_DIR}/" -type f,l -exec "${SHELLDIR}/backup-single.sh" "${DST_DIR}" {} "${SRC_DIR}/" \;

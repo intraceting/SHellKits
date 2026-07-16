@@ -68,9 +68,9 @@ if [ "${#}" -ne 3 ]; then
 fi
 
 #
-DST_PATH=$(realpath -m "${1}")
-SRC_FILE=$(realpath -m "${2}")
-SRC_PERFIX=$(realpath -m "${3}")
+DST_PATH=$(realpath -s -m "${1}")
+SRC_FILE=$(realpath -s -m "${2}")
+SRC_PERFIX=$(realpath -s -m "${3}")
 
 #提取源文件名.
 SRC_NAME="${SRC_FILE##*/}"
