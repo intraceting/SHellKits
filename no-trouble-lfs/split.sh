@@ -29,27 +29,6 @@ exit_if_error()
     fi
 }
 
-#外部命令列表.
-CMD_CHECK_LIST+=("realpath")
-CMD_CHECK_LIST+=("stat")
-CMD_CHECK_LIST+=("cat")
-CMD_CHECK_LIST+=("readlink")
-CMD_CHECK_LIST+=("sha256sum")
-CMD_CHECK_LIST+=("awk")
-CMD_CHECK_LIST+=("mkdir")
-CMD_CHECK_LIST+=("cp")
-CMD_CHECK_LIST+=("rm")
-CMD_CHECK_LIST+=("7z")
-
-#验证外部命令是否已经安装.
-for CHECK_ONE in "${CMD_CHECK_LIST[@]}"; do
-{
-    which ${CHECK_ONE} >>/dev/null 2>&1
-    exit_if_error $? "${CHECK_ONE} 未找到或尚未安装." $?
-}
-done
-
-
 #
 TMP_HOME_A=$(realpath -s "${SHELLDIR}")
 TMP_HOME_B=$(realpath -s "${PWD}")
@@ -63,7 +42,7 @@ fi
 
 #检查参数.
 if [ "${#}" -ne 3 ]; then
-    echo "使用方法: ${0} <备份目录>  <源文件> <源前缀>"
+    echo "使用方法: ${0} <备份目录> <源文件> <源前缀>"
     exit 1
 fi
 
@@ -109,13 +88,10 @@ PERM_DATA_NEW=$(stat -c "%a" "${SRC_FILE}" 2>/dev/null)
 PERM_DATA_OLD=$(cat "${DST_ATTR_FILE}" 2>/dev/null)
 
 #计算新的较验码.
-if [ -L "${SRC_FILE}" ]; then
-    SRC_LINK_TARGET=$(readlink "${SRC_FILE}")
-    CHKSUM_DATA_NEW=$(echo -n "${SRC_LINK_TARGET}" | sha256sum | awk "{print \$1}")
-elif [ -f "${SRC_FILE}" ]; then
+if [ -f "${SRC_FILE}" ]; then
     CHKSUM_DATA_NEW=$(sha256sum "${SRC_FILE}" | awk "{print \$1}")
 else
-    exit 0
+    exit 1
 fi
 
 #读取旧的较验码.
@@ -124,17 +100,18 @@ CHKSUM_DATA_OLD=$(cat "${DST_CHKSUM_FILE}" 2>/dev/null)
 #比较较验码, 判定是否需要重新备份.
 if [ "${CHKSUM_DATA_NEW}" == "${CHKSUM_DATA_OLD}" ];then
 {
-    echo "跳过(文件无变化): '${SRC_FILE}'"
-
-    if [ -L "${SRC_FILE}" ];then
-    {
-        echo -n ""
-    }
-    elif [ "${PERM_DATA_NEW}" != "${PERM_DATA_OLD}" ];then
+    if [ "${PERM_DATA_NEW}" != "${PERM_DATA_OLD}" ];then
     {
         #同步属性.
-        echo "${PERM_DATA_NEW}" > "${DST_ATTR_FILE}"
-        echo "原文件的属性发生变更, 备份文件的属性同步完成."
+        echo "${PERM_DATA_NEW}" > "${DST_ATTR_FILE}" 2>/dev/null
+        exit_if_error $? "备份空间('${DST_PATH}')不足或无权限." $?
+
+        #
+        echo "同步(属性有更新): '${SRC_FILE}'"
+    }
+    else
+    {
+        echo "跳过(内容无更新): '${SRC_FILE}'"
     }
     fi
 }
@@ -143,26 +120,17 @@ else
     #创建可能不存的路径.
     mkdir -p "${DST_PERV_PATH}"
 
-    #符号链接与普通文件分开处理.
-    if [ -L "${SRC_FILE}" ];then
-    {
-        #仅复制链接目标与源名字. 强制覆盖现存的.
-        cp -f -d "${SRC_FILE}" "${DST_FILE}"
-    }
-    else 
-    {
-        #如果目录存在则删除所有旧的备份, 否则创建源名字同名目录.
-        if [ -d "${DST_FILE}" ];then
-            rm -f "${DST_FILE}/*"
-        else
-            mkdir -p "${DST_FILE}"
-        fi
-
-        #分卷备份, 每卷10MB.
-        7z a -mx=0 -v10m -y "${DST_VOLUME_PERFIX}" "${SRC_FILE}" > /dev/null
-    }
+    #如果目录存在则删除所有旧的备份, 否则创建源名字同名目录.
+    if [ -d "${DST_FILE}" ];then
+        rm -f "${DST_FILE}/*"
+    else
+        mkdir -p "${DST_FILE}"
     fi
 
+    #分卷备份, 每卷10MB.
+    7z a -mx=0 -v10m -y "${DST_VOLUME_PERFIX}" "${SRC_FILE}" > /dev/null 2>&1
+    exit_if_error $? "备份空间('${DST_PATH}')不足或无权限." $?
+ 
     #保存属性.
     echo "${PERM_DATA_NEW}" > "${DST_ATTR_FILE}"
     #保存校验码.
@@ -171,3 +139,6 @@ else
     echo "备份完成: ${SRC_FILE}"
 }
 fi
+
+#
+exit 0

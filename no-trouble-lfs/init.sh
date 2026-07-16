@@ -30,17 +30,26 @@ exit_if_error()
 }
 
 #外部命令列表.
+CMD_CHECK_LIST+=("dirname")
+CMD_CHECK_LIST+=("basename")
 CMD_CHECK_LIST+=("realpath")
-CMD_CHECK_LIST+=("find")
+CMD_CHECK_LIST+=("stat")
+CMD_CHECK_LIST+=("cat")
+CMD_CHECK_LIST+=("readlink")
+CMD_CHECK_LIST+=("sha256sum")
+CMD_CHECK_LIST+=("awk")
+CMD_CHECK_LIST+=("mkdir")
+CMD_CHECK_LIST+=("cp")
+CMD_CHECK_LIST+=("rm")
+CMD_CHECK_LIST+=("7z")
 
 #验证外部命令是否已经安装.
 for CHECK_ONE in "${CMD_CHECK_LIST[@]}"; do
 {
-    which ${CHECK_ONE} >>/dev/null 2>&1
+    which ${CHECK_ONE} >/dev/null 2>&1
     exit_if_error $? "${CHECK_ONE} 未找到或尚未安装." $?
 }
 done
-
 
 #
 TMP_HOME_A=$(realpath -s "${SHELLDIR}")
@@ -53,16 +62,26 @@ if [ "${TMP_HOME_A}" == "${TMP_HOME_B}" ];then
 }
 fi
 
+#
+MANIFEST_NAME=".no-trouble-lfs.manifest"
+REPOSITORY_NAME=".no-trouble-lfs.repository"
 
-# 
-if [ "${#}" -ne 2 ]; then
-    echo "使用方法: ${0} <源目录> <备份目录>"
-    exit 1
+#定位最近的文件清单路径.
+TOP_PATH=$(${SHELLDIR}/locate.sh "${MANIFEST_NAME}")
+
+#如果未找到则使用当前工作目录.
+if [ "${TOP_PATH}" == "" ];then
+TOP_PATH="${PWD}"
 fi
 
-#去掉冗余层, 但不要展开符号链接.
-SRC_DIR=$(realpath -s -m "${1}")
-DST_DIR=$(realpath -s -m "${2}")
+#
+MANIFEST_FILE="${TOP_PATH}/${MANIFEST_NAME}"
+REPOSITORY_FILE="${TOP_PATH}/${REPOSITORY_NAME}"
 
-#仅备份符号链接或普通文件.
-find "${SRC_DIR}/" -type f,l -exec "${SHELLDIR}/backup-single.sh" "${DST_DIR}" {} "${SRC_DIR}/" \;
+#按需创建文件清单.
+if [ ! -e "${MANIFEST_FILE}" ];then
+> "${MANIFEST_FILE}"
+fi
+
+#按需创建仓储路径.
+mkdir -p "${REPOSITORY_FILE}"
