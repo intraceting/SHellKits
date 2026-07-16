@@ -60,7 +60,7 @@ if [ "${#}" -ne 2 ]; then
     exit 1
 fi
 
-# 获取源目录和目标目录的绝对路径
+#去掉冗余层, 但不要展开符号链接.
 SRC_DIR=$(realpath -s -m "${1}")
 DST_DIR=$(realpath -s -m "${2}")
 

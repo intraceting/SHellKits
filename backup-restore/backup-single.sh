@@ -67,7 +67,7 @@ if [ "${#}" -ne 3 ]; then
     exit 1
 fi
 
-#
+#去掉冗余层, 但不要展开符号链接.
 DST_PATH=$(realpath -s -m "${1}")
 SRC_FILE=$(realpath -s -m "${2}")
 SRC_PERFIX=$(realpath -s -m "${3}")
