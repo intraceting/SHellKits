@@ -75,6 +75,7 @@ while IFS= read -r ONE_FILE; do
         continue
     fi
 
+    #
     if [ -f "${TOP_PATH}/${ONE_FILE}" ];then
     {
         ${SHELLDIR}/backup.sh "${REPOSITORY_FILE}" "${TOP_PATH}" "${ONE_FILE}"
@@ -82,7 +83,7 @@ while IFS= read -r ONE_FILE; do
     }
     else 
     {
-        echo "忽略(仅支持普通文件): '${ONE_FILE}'"
+        echo "忽略(文件不存在或非普通文件): '${ONE_FILE}'"
     }
     fi
 }
