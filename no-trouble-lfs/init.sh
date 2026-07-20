@@ -62,8 +62,8 @@ if [ "${TMP_HOME_A}" == "${TMP_HOME_B}" ];then
 fi
 
 #
-MANIFEST_NAME=".no-trouble-lfs.manifest"
-REPOSITORY_NAME=".no-trouble-lfs.repository"
+MANIFEST_NAME=".gitignore"
+REPOSITORY_NAME=".ntlfs"
 
 #定位最近的文件清单路径.
 TOP_PATH=$(${SHELLDIR}/locate.sh "${MANIFEST_NAME}")

@@ -40,15 +40,15 @@ if [ "${TMP_HOME_A}" == "${TMP_HOME_B}" ];then
 fi
 
 #
-MANIFEST_NAME=".no-trouble-lfs.manifest"
-REPOSITORY_NAME=".no-trouble-lfs.repository"
+MANIFEST_NAME=".gitignore"
+REPOSITORY_NAME=".ntlfs"
 
 #定位最近的文件清单路径.
 TOP_PATH=$(${SHELLDIR}/locate.sh "${MANIFEST_NAME}")
 
 #
 if [ "${TOP_PATH}" == "" ];then
-    exit_if_error 1 "The no-trouble-lfs environment is not initialized." 1
+    exit_if_error 1 "The ntlfs environment is not initialized." 1
 fi
 
 #
@@ -56,22 +56,40 @@ MANIFEST_FILE="${TOP_PATH}/${MANIFEST_NAME}"
 REPOSITORY_FILE="${TOP_PATH}/${REPOSITORY_NAME}"
 
 #
+MANIFEST_BEGIN_KEY="# ntlfs-manifest-begin"
+MANIFEST_END_KEY="# ntlfs-manifest-end"
+MANIFEST_IS_VALID="no"
+
+#
 while IFS= read -r ONE_FILE; do
 {
-    # '#'开头是注释.
-    if [[ "${ONE_FILE}" =~ ^[[:space:][:cntrl:]]*# ]]; then
-        continue
-    fi
+    # 先去尾部的空白或控制字符.
+    ONE_FILE="${ONE_FILE%"${ONE_FILE##*[![:space:][:cntrl:]]}"}"
 
-    # 去除控制字符.
-    ONE_FILE="${ONE_FILE//[[:cntrl:]]/}"
-    
-    # 去除两端的空白字符.
-    ONE_FILE="${ONE_FILE#"${ONE_FILE%%[![:space:]]*}"}"
-    ONE_FILE="${ONE_FILE%"${ONE_FILE##*[![:space:]]}"}"
+    # 再去首部的空白或控制字符.
+    ONE_FILE="${ONE_FILE#"${ONE_FILE%%[![:space:][:cntrl:]]*}"}"
 
     # 过滤清洗后可能产生的空行.
     if [ "${ONE_FILE}" == "" ];then
+        continue
+    fi
+
+    # '#'开头是注释. (正则表达式需要双层括号)
+    if [[ "${ONE_FILE}" =~ ^# ]]; then
+    {
+        if [ "${MANIFEST_BEGIN_KEY}" == "${ONE_FILE}" ];then
+            MANIFEST_IS_VALID="yes"
+        elif [ "${MANIFEST_END_KEY}" == "${ONE_FILE}" ];then
+            MANIFEST_IS_VALID="no"
+        fi
+
+        # 下一行.
+        continue
+    }
+    fi
+
+    # 未进入清单区间时跳过.
+    if [ "${MANIFEST_IS_VALID}" != "yes" ];then
         continue
     fi
 
