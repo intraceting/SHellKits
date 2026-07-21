@@ -34,9 +34,7 @@ TMP_HOME_B=$(realpath -s "${PWD}")
 
 #不允许脚本所在目录运行.
 if [ "${TMP_HOME_A}" == "${TMP_HOME_B}" ];then
-{
     exit_if_error 1 "Scripts cannot be run from the directory where they are located." 1
-}
 fi
 
 #
