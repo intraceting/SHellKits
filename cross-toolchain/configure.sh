@@ -32,6 +32,8 @@ exit_if_error()
 CROSSTOOL_SAMPLE=$1
 #
 CROSSTOOL_BIN=$(which ct-ng)
+#
+CROSSTOOL_HOME=${PWD}
 
 #
 TMP_HOME_A=$(realpath -s "${SHELLDIR}")
@@ -39,15 +41,16 @@ TMP_HOME_B=$(realpath -s "${PWD}")
 
 #不允许脚本所在目录运行.
 if [ "${TMP_HOME_A}" == "${TMP_HOME_B}" ];then
-{
     exit_if_error 1 "Scripts cannot be run from the directory where they are located." 1
-}
 fi
 
 #
 if [ ! -f "${CROSSTOOL_BIN}" ] && [ ! -L "${CROSSTOOL_BIN}" ];then
-exit_if_error 1 "'crosstool-ng' is not installed or not in the default location." 1
+    exit_if_error 1 "'crosstool-ng' is not installed or not in the default location." 1
 fi
+
+#创建必要但可能不存在路径.
+mkdir -p ${CROSSTOOL_HOME}/{build,src,x-tools}
 
 #检查配置文件是否已经存.
 if [ ! -f "${CROSSTOOL_HOME}/build/.config" ];then
@@ -58,9 +61,6 @@ if [ ! -f "${CROSSTOOL_HOME}/build/.config" ];then
     fi
 }
 fi
-
-#创建必要但可能不存在路径.
-mkdir -p ${CROSSTOOL_HOME}/{build,src,x-tools}
 
 #进入构建路径.
 cd ${CROSSTOOL_HOME}/build/
@@ -73,7 +73,6 @@ if [ "${CROSSTOOL_SAMPLE}" != "" ];then
     exit_if_error $? "Invalid or unsupported sample name." $?
 }
 fi
-
 
 #打开配置页面.
 ${CROSSTOOL_BIN} menuconfig

@@ -5,7 +5,6 @@
 # Copyright (c) 2026 The SHELLKITS project authors. All Rights Reserved.
 ##
 #
-#
 SHELLDIR=$(cd `dirname "$0"`; pwd)
 
 #
@@ -37,7 +36,7 @@ CROSSTOOL_HOME=${PWD}
 
 #
 if [ ! -f "${CROSSTOOL_BIN}" ] && [ ! -L "${CROSSTOOL_BIN}" ];then
-exit_if_error 1 "'crosstool-ng' is not installed or not in the default location." 1
+    exit_if_error 1 "'crosstool-ng' is not installed or not in the default location." 1
 fi
 
 #打印样本列表.

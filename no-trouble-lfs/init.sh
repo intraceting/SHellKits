@@ -77,10 +77,19 @@ fi
 MANIFEST_FILE="${TOP_PATH}/${MANIFEST_NAME}"
 REPOSITORY_FILE="${TOP_PATH}/${REPOSITORY_NAME}"
 
+#
+MANIFEST_BEGIN_KEY="# ntlfs-manifest-begin"
+MANIFEST_END_KEY="# ntlfs-manifest-end"
+
+
 #按需创建文件清单.
 if [ ! -e "${MANIFEST_FILE}" ];then
 > "${MANIFEST_FILE}"
 fi
+
+#
+echo "${MANIFEST_BEGIN_KEY}" >> "${MANIFEST_FILE}"
+echo "${MANIFEST_END_KEY}" >> "${MANIFEST_FILE}"
 
 #按需创建仓储路径.
 mkdir -p "${REPOSITORY_FILE}"

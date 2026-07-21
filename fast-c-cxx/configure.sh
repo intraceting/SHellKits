@@ -312,9 +312,7 @@ TMP_HOME_B=$(realpath -s "${PWD}")
 
 #不允许脚本所在目录运行.
 if [ "${TMP_HOME_A}" == "${TMP_HOME_B}" ];then
-{
     exit_if_error 1 "Scripts cannot be run from the directory where they are located." 1
-}
 fi
 
 #
@@ -371,9 +369,7 @@ MK_CONF=${PWD}/makefile.conf
 MK_FILE=${PWD}/makefile
 
 if [ -f ${MK_CONF} ] || [ -f ${MK_FILE} ];then
-{
     exit_if_error 1 "The file '${MK_CONF}' or '${MK_FILE}' already exists. Please change the path or delete the existing file." 1
-}
 fi
 
 #
