@@ -36,14 +36,14 @@ CheckSTD()
 # $2 COMPILER
 # $3 STD
 {
-    ${SHELLDIR}/../tools/check-$1-std.sh "$2" "$3"
+    ${SHELLDIR}//check-$1-std.sh "$2" "$3"
 }
 
 #
 GetCompilerArch()
 #$1 BIN
 {
-    ${SHELLDIR}/../tools/get-compiler-arch.sh "$1" 
+    ${SHELLDIR}/get-compiler-arch.sh "$1" 
 }
 
 
@@ -51,7 +51,7 @@ GetCompilerArch()
 GetCompilerBitWide()
 #$1 BIN
 {
-    ${SHELLDIR}/../tools/get-compiler-bitwide.sh "$1" 
+    ${SHELLDIR}/get-compiler-bitwide.sh "$1" 
 }
 
 
@@ -59,14 +59,14 @@ GetCompilerBitWide()
 GetCompilerMachine()
 #$1 BIN
 {
-    ${SHELLDIR}/../tools/get-compiler-machine.sh "$1" 
+    ${SHELLDIR}/get-compiler-machine.sh "$1" 
 }
 
 #
 GetCompilerPlatform()
 #$1 BIN
 {
-    ${SHELLDIR}/../tools/get-compiler-platform.sh "$1" 
+    ${SHELLDIR}/get-compiler-platform.sh "$1" 
 }
 
 #
@@ -74,35 +74,35 @@ GetCompilerProgName()
 #$1 BIN
 #$2 NAME
 {
-    ${SHELLDIR}/../tools/get-compiler-prog-name.sh "$1" "$2"
+    ${SHELLDIR}/get-compiler-prog-name.sh "$1" "$2"
 }
 
 #
 GetCompilerVersion()
 #$1 BIN
 {
-    ${SHELLDIR}/../tools/get-compiler-version.sh "$1"
+    ${SHELLDIR}/get-compiler-version.sh "$1"
 }
 
 #
 GetCompilerSysroot()
 #$1 BIN
 {
-    ${SHELLDIR}/../tools/get-compiler-sysroot.sh "$1"
+    ${SHELLDIR}/get-compiler-sysroot.sh "$1"
 }
 
 #
 GetLibcVersion()
 #$1 BIN
 {
-    ${SHELLDIR}/../tools/get-compiler-glibc-version.sh "$1" "$2"
+    ${SHELLDIR}/get-compiler-glibc-version.sh "$1" "$2"
 }
 
 #
 GetCompilerMultiArch()
 #$1 BIN
 {
-    ${SHELLDIR}/../tools/get-compiler-multiarch.sh "$1" 
+    ${SHELLDIR}/get-compiler-multiarch.sh "$1" 
 }
 
 #
