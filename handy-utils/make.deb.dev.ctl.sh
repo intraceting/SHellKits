@@ -119,6 +119,8 @@ if [ "${TARGET_PLATFORM}" == "x86_64" ];then
     TARGET_PLATFORM="amd64"
 elif [ "${TARGET_PLATFORM}" == "aarch64" ];then
     TARGET_PLATFORM="arm64"
+else
+    TARGET_PLATFORM="all"
 fi
 
 #

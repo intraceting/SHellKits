@@ -34,7 +34,7 @@ CheckKeyword()
 # $1 keywords
 # $2 word
 {
-    ${SHELLDIR}/../tools/check-keyword.sh "$1" "$2"
+    ${SHELLDIR}/../handy-utils/check-keyword.sh "$1" "$2"
 }
 
 #
@@ -42,7 +42,7 @@ CheckSTD_C()
 # $1 COMPILER
 # $2 STD
 {
-    ${SHELLDIR}/../tools/check-c-std.sh "$1" "$2"
+    ${SHELLDIR}/../handy-utils/check-c-std.sh "$1" "$2"
 }
 
 
@@ -51,7 +51,7 @@ CheckSTD_CXX()
 # $1 COMPILER
 # $2 STD
 {
-    ${SHELLDIR}/../tools/check-cxx-std.sh "$1" "$2"
+    ${SHELLDIR}/../handy-utils/check-cxx-std.sh "$1" "$2"
 }
 
 #
@@ -60,7 +60,7 @@ CheckSTD_NVCC()
 # $2 STD
 # $3 CCBIN
 {
-    ${SHELLDIR}/../tools/check-nvcc-std.sh "$1" "$2" "$3"
+    ${SHELLDIR}/../handy-utils/check-nvcc-std.sh "$1" "$2" "$3"
 }
 
 #
@@ -69,7 +69,7 @@ CheckHeader_C()
 # $2 STD
 # $3 HEADER
 {
-    ${SHELLDIR}/../tools/check-c-std-header.sh "$1" "$2" "$3"
+    ${SHELLDIR}/../handy-utils/check-c-std-header.sh "$1" "$2" "$3"
 }
 
 #
@@ -78,14 +78,14 @@ CheckHeader_CXX()
 # $2 STD
 # $3 HEADER
 {
-    ${SHELLDIR}/../tools/check-cxx-std-header.sh "$1" "$2" "$3"
+    ${SHELLDIR}/../handy-utils/check-cxx-std-header.sh "$1" "$2" "$3"
 }
 
 #
 PrintCompilerConf()
 # $1 PREFIX
 {
-    ${SHELLDIR}/../tools/print-compiler-conf.sh -d SOLUTION_PREFIX=SHELLKITS -d TARGET_COMPILER_PREFIX="$1"
+    ${SHELLDIR}/../handy-utils/print-compiler-conf.sh -d SOLUTION_PREFIX=SHELLKITS -d TARGET_COMPILER_PREFIX="$1"
 }
 
 #
@@ -94,7 +94,7 @@ FindPKG_CFLAGS()
 #$2 "PREFIX[:PREFIX:...]"
 #$3 "MACHINE"
 {
-    ${SHELLDIR}/../tools/pkg-find-cflags.sh "$1" "$2" "$3"
+    ${SHELLDIR}/../handy-utils/pkg-find-cflags.sh "$1" "$2" "$3"
 }
 
 #
@@ -103,7 +103,7 @@ FindPKG_LDFLAGS()
 #$2 "PREFIX[:PREFIX:...]"
 #$3 "MACHINE"
 {
-    ${SHELLDIR}/../tools/pkg-find-ldflags.sh "$1" "$2" "$3"
+    ${SHELLDIR}/../handy-utils/pkg-find-ldflags.sh "$1" "$2" "$3"
 }
 
 #
@@ -112,7 +112,7 @@ FindINC_PATH()
 #$2 "PREFIX[:PREFIX:...]"
 #$3 "MACHINE"
 {
-    ${SHELLDIR}/../tools/find-inc-path.sh "$1" "$2" "$3"
+    ${SHELLDIR}/../handy-utils/find-inc-path.sh "$1" "$2" "$3"
 }
 
 #
@@ -121,7 +121,7 @@ FindLIB_PATH()
 #$2 "PREFIX[:PREFIX:...]"
 #$3 "MACHINE"
 {
-    ${SHELLDIR}/../tools/find-lib-path.sh "$1" "$2" "$3"
+    ${SHELLDIR}/../handy-utils/find-lib-path.sh "$1" "$2" "$3"
 }
 
 
@@ -131,7 +131,7 @@ FindBIN_PATH()
 #$2 "PREFIX[:PREFIX:...]"
 #$3 "MACHINE"
 {
-    ${SHELLDIR}/../tools/find-bin-path.sh "$1" "$2" "$3"
+    ${SHELLDIR}/../handy-utils/find-bin-path.sh "$1" "$2" "$3"
 }
 
 #
@@ -140,7 +140,7 @@ FindETC_PATH()
 #$2 "PREFIX[:PREFIX:...]"
 #$3 "MACHINE"
 {
-    ${SHELLDIR}/../tools/find-etc-path.sh "$1" "$2" "$3"
+    ${SHELLDIR}/../handy-utils/find-etc-path.sh "$1" "$2" "$3"
 }
 
 #
@@ -150,7 +150,7 @@ Check_SQLCipher()
 # $3 "CASE"
 # $4 "PREFIX[:PREFIX:...]"
 {
-    ${SHELLDIR}/../tools/check-sqlcipher.sh "$1" "$2" "$3" "$4"
+    ${SHELLDIR}/../handy-utils/check-sqlcipher.sh "$1" "$2" "$3" "$4"
 }
 
 #默认makefile在上层目录.
