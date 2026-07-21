@@ -45,7 +45,7 @@ endif
 
 #
 BIN_DEB_FILENAME = shellkits-bin-${VERSION_STR_FULL}-${PACKAGE_RELEASE_NAME}-all.deb
-BIN_RPM_FILENAME = shellkits-bin-${VERSION_STR_FULL}-${PACKAGE_RELEASE_NAME}-all.rpm
+BIN_RPM_FILENAME = shellkits-bin-${VERSION_STR_FULL}-${PACKAGE_RELEASE_NAME}-noarch.rpm
 
 #
 prepare-bin:
@@ -93,14 +93,14 @@ package-rpm-bin: prepare-bin
 	-d VERSION_MAJOR=${VERSION_MAJOR} \
 	-d VERSION_MINOR=${VERSION_MINOR} \
 	-d VERSION_RELEASE=${VERSION_PATCH} \
-	-d TARGET_PLATFORM="all" \
+	-d TARGET_PLATFORM="noarch" \
 	-d FILES_NAME=${BIN_FILE_LIST} \
 	-d POST_NAME=${BIN_POST_SHELL_FILE} \
 	-d POSTUN_NAME=${BIN_POSTUN_SHELL_FILE} \
 	-d REQUIRE_LIST=${BIN_RPM_REQUIRE_LIST}
 #生成RPM文件.
 	rpmbuild --noclean \
-	--target="all" \
+	--target "noarch" \
 	--buildroot ${BIN_SYSROOT_TMP} \
 	-bb ${BIN_RPM_SPEC} \
 	--define="_rpmdir ${BUILD_PATH}" \

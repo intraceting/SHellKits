@@ -151,7 +151,7 @@ Release: ${VERSION_RELEASE}
 Summary: ${PACK_NAME}.
 Vendor: ${VENDOR_NAME}
 Group: Applications/System
-Exclusivearch : ${TARGET_PLATFORM}
+BuildArch : ${TARGET_PLATFORM}
 License: none
 Requires: ${REQUIRE_LIST} 
 AutoReqProv: no
