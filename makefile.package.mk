@@ -6,37 +6,37 @@
 #
 #MAKEFILE_DIR := $(dir $(shell realpath "$(lastword $(MAKEFILE_LIST))"))
 
-#生成BIN安装后执行脚本文件内容.
-define BIN_POST_SHELL_CONTEXT
+#生成KIT安装后执行脚本文件内容.
+define KIT_POST_SHELL_CONTEXT
 #
 endef
-export BIN_POST_SHELL_CONTEXT
+export KIT_POST_SHELL_CONTEXT
 
-#生成BIN卸载后执行脚本文件内容.
-define BIN_POSTUN_SHELL_CONTEXT
+#生成KIT卸载后执行脚本文件内容.
+define KIT_POSTUN_SHELL_CONTEXT
 #
 endef
-export BIN_POSTUN_SHELL_CONTEXT
+export KIT_POSTUN_SHELL_CONTEXT
 
 
 #
 SYSROOT_TMP = ${BUILD_PATH}/shellkits.sysroot.tmp/
 #
-BIN_FILE_LIST = ${SYSROOT_TMP}/bin.file.list
+KIT_FILE_LIST = ${SYSROOT_TMP}/kit.file.list
 #
-BIN_SYSROOT_TMP = ${SYSROOT_TMP}/bin.sysroot.tmp/
+KIT_SYSROOT_TMP = ${SYSROOT_TMP}/kit.sysroot.tmp/
 
 #
-BIN_POST_SHELL_FILE = ${SYSROOT_TMP}/bin.post.sh
-BIN_POSTUN_SHELL_FILE = ${SYSROOT_TMP}/bin.postun.sh
+KIT_POST_SHELL_FILE = ${SYSROOT_TMP}/kit.post.sh
+KIT_POSTUN_SHELL_FILE = ${SYSROOT_TMP}/kit.postun.sh
 
 #
-BIN_RPM_SPEC = ${SYSROOT_TMP}/bin.rpm.spec
-BIN_DEB_SPEC = ${SYSROOT_TMP}/bin.deb.spec
+KIT_RPM_SPEC = ${SYSROOT_TMP}/kit.rpm.spec
+KIT_DEB_SPEC = ${SYSROOT_TMP}/kit.deb.spec
 
 #
-BIN_DEB_REQUIRE_LIST = "libc-bin"
-BIN_RPM_REQUIRE_LIST = "glibc"
+KIT_DEB_REQUIRE_LIST = "libc-bin"
+KIT_RPM_REQUIRE_LIST = "glibc"
 
 #
 ifeq (${PACKAGE_RELEASE_NAME},)
@@ -44,77 +44,77 @@ PACKAGE_RELEASE_NAME := $(shell date +%s)
 endif
 
 #
-BIN_DEB_FILENAME = shellkits-bin-${VERSION_STR_FULL}-${PACKAGE_RELEASE_NAME}-all.deb
-BIN_RPM_FILENAME = shellkits-bin-${VERSION_STR_FULL}-${PACKAGE_RELEASE_NAME}-noarch.rpm
+KIT_DEB_FILENAME = shellkits-${VERSION_STR_FULL}-${PACKAGE_RELEASE_NAME}-all.deb
+KIT_RPM_FILENAME = shellkits-${VERSION_STR_FULL}-${PACKAGE_RELEASE_NAME}-noarch.rpm
 
 #
-prepare-bin:
-	rm -rf ${BIN_SYSROOT_TMP}
-	$(MAKE) -s -C ${MAKEFILE_DIR} INSTALL_PREFIX=${BIN_SYSROOT_TMP}/${INSTALL_PREFIX} install-handy-utils
-	$(MAKE) -s -C ${MAKEFILE_DIR} INSTALL_PREFIX=${BIN_SYSROOT_TMP}/${INSTALL_PREFIX} install-cross-toolchain
-	$(MAKE) -s -C ${MAKEFILE_DIR} INSTALL_PREFIX=${BIN_SYSROOT_TMP}/${INSTALL_PREFIX} install-fast-c-cxx
-	$(MAKE) -s -C ${MAKEFILE_DIR} INSTALL_PREFIX=${BIN_SYSROOT_TMP}/${INSTALL_PREFIX} install-no-trouble-lfs
+prepare-kit:
+	rm -rf ${KIT_SYSROOT_TMP}
+	$(MAKE) -s -C ${MAKEFILE_DIR} INSTALL_PREFIX=${KIT_SYSROOT_TMP}/${INSTALL_PREFIX} install-handy-utils
+	$(MAKE) -s -C ${MAKEFILE_DIR} INSTALL_PREFIX=${KIT_SYSROOT_TMP}/${INSTALL_PREFIX} install-cross-toolchain
+	$(MAKE) -s -C ${MAKEFILE_DIR} INSTALL_PREFIX=${KIT_SYSROOT_TMP}/${INSTALL_PREFIX} install-fast-c-cxx
+	$(MAKE) -s -C ${MAKEFILE_DIR} INSTALL_PREFIX=${KIT_SYSROOT_TMP}/${INSTALL_PREFIX} install-no-trouble-lfs
 #
-	find ${BIN_SYSROOT_TMP}/${INSTALL_PREFIX} -type f -printf "${INSTALL_PREFIX}/%P\n" > ${BIN_FILE_LIST}
-	find ${BIN_SYSROOT_TMP}/${INSTALL_PREFIX} -type l -printf "${INSTALL_PREFIX}/%P\n" >> ${BIN_FILE_LIST}
+	find ${KIT_SYSROOT_TMP}/${INSTALL_PREFIX} -type f -printf "${INSTALL_PREFIX}/%P\n" > ${KIT_FILE_LIST}
+	find ${KIT_SYSROOT_TMP}/${INSTALL_PREFIX} -type l -printf "${INSTALL_PREFIX}/%P\n" >> ${KIT_FILE_LIST}
 #
-	printf "%s" "$${BIN_POST_SHELL_CONTEXT}" > ${BIN_POST_SHELL_FILE}
-	printf "%s" "$${BIN_POSTUN_SHELL_CONTEXT}" > ${BIN_POSTUN_SHELL_FILE}
+	printf "%s" "$${KIT_POST_SHELL_CONTEXT}" > ${KIT_POST_SHELL_FILE}
+	printf "%s" "$${KIT_POSTUN_SHELL_CONTEXT}" > ${KIT_POSTUN_SHELL_FILE}
 
 #
-package-deb-bin: prepare-bin
+package-deb-kit: prepare-kit
 #生成SPEC文件.
 	${MAKEFILE_DIR}/handy-utils/make.deb.rt.ctl.sh  \
-	-d PACK_NAME=shellkits-bin \
+	-d PACK_NAME=shellkits \
 	-d VENDOR_NAME=INTRACETING\(traceting@gmail.com\) \
-	-d OUTPUT=${BIN_DEB_SPEC} \
+	-d OUTPUT=${KIT_DEB_SPEC} \
 	-d VERSION_MAJOR=${VERSION_MAJOR} \
 	-d VERSION_MINOR=${VERSION_MINOR} \
 	-d VERSION_RELEASE=${VERSION_PATCH} \
 	-d TARGET_PLATFORM="all" \
-	-d FILES_NAME=${BIN_FILE_LIST} \
-	-d POST_NAME=${BIN_POST_SHELL_FILE} \
-	-d POSTUN_NAME=${BIN_POSTUN_SHELL_FILE} \
-	-d REQUIRE_LIST=${BIN_DEB_REQUIRE_LIST}
+	-d FILES_NAME=${KIT_FILE_LIST} \
+	-d POST_NAME=${KIT_POST_SHELL_FILE} \
+	-d POSTUN_NAME=${KIT_POSTUN_SHELL_FILE} \
+	-d REQUIRE_LIST=${KIT_DEB_REQUIRE_LIST}
 #移动SPEC文件.
-	mv ${BIN_DEB_SPEC} ${BIN_SYSROOT_TMP}/DEBIAN
+	mv ${KIT_DEB_SPEC} ${KIT_SYSROOT_TMP}/DEBIAN
 #生成DEB文件.
-	dpkg-deb --build ${BIN_SYSROOT_TMP} ${BUILD_PATH}/${BIN_DEB_FILENAME}
+	dpkg-deb --build ${KIT_SYSROOT_TMP} ${BUILD_PATH}/${KIT_DEB_FILENAME}
 #移动SPEC文件.
-	mv ${BIN_SYSROOT_TMP}/DEBIAN ${BIN_DEB_SPEC}
+	mv ${KIT_SYSROOT_TMP}/DEBIAN ${KIT_DEB_SPEC}
 
 #
-package-rpm-bin: prepare-bin
+package-rpm-kit: prepare-kit
 #生成SPEC文件.
 	${MAKEFILE_DIR}/handy-utils/make.rpm.rt.spec.sh \
-	-d PACK_NAME=shellkits-bin \
+	-d PACK_NAME=shellkits \
 	-d VENDOR_NAME=INTRACETING\(traceting@gmail.com\) \
-	-d OUTPUT=${BIN_RPM_SPEC} \
+	-d OUTPUT=${KIT_RPM_SPEC} \
 	-d VERSION_MAJOR=${VERSION_MAJOR} \
 	-d VERSION_MINOR=${VERSION_MINOR} \
 	-d VERSION_RELEASE=${VERSION_PATCH} \
 	-d TARGET_PLATFORM="noarch" \
-	-d FILES_NAME=${BIN_FILE_LIST} \
-	-d POST_NAME=${BIN_POST_SHELL_FILE} \
-	-d POSTUN_NAME=${BIN_POSTUN_SHELL_FILE} \
-	-d REQUIRE_LIST=${BIN_RPM_REQUIRE_LIST}
+	-d FILES_NAME=${KIT_FILE_LIST} \
+	-d POST_NAME=${KIT_POST_SHELL_FILE} \
+	-d POSTUN_NAME=${KIT_POSTUN_SHELL_FILE} \
+	-d REQUIRE_LIST=${KIT_RPM_REQUIRE_LIST}
 #生成RPM文件.
 	rpmbuild --noclean \
 	--target "noarch" \
-	--buildroot ${BIN_SYSROOT_TMP} \
-	-bb ${BIN_RPM_SPEC} \
+	--buildroot ${KIT_SYSROOT_TMP} \
+	-bb ${KIT_RPM_SPEC} \
 	--define="_rpmdir ${BUILD_PATH}" \
-	--define="_rpmfilename ${BIN_RPM_FILENAME}" \
+	--define="_rpmfilename ${KIT_RPM_FILENAME}" \
 	--define="%source_date_epoch_from_changelog 0"
 
 #
-package-bin: package-deb-bin package-rpm-bin
+package-kit: package-deb-kit package-rpm-kit
 
 #
-clean-package-bin:
-	rm -rf ${BIN_SYSROOT_TMP}
-	rm -rf ${BIN_FILE_LIST}
-	rm -rf ${BIN_POST_SHELL_FILE}
-	rm -rf ${BIN_POSTUN_SHELL_FILE}
-	rm -rf ${BIN_RPM_SPEC}
-	rm -rf ${BIN_DEB_SPEC}
+clean-package-kit:
+	rm -rf ${KIT_SYSROOT_TMP}
+	rm -rf ${KIT_FILE_LIST}
+	rm -rf ${KIT_POST_SHELL_FILE}
+	rm -rf ${KIT_POSTUN_SHELL_FILE}
+	rm -rf ${KIT_RPM_SPEC}
+	rm -rf ${KIT_DEB_SPEC}

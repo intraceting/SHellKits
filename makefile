@@ -10,7 +10,7 @@ MAKEFILE_DIR := $(dir $(shell realpath "$(lastword $(MAKEFILE_LIST))"))
 BUILD_PATH ?= ${MAKEFILE_DIR}/build
 
 #
-INSTALL_PREFIX ?= /usr/local/shellkits
+INSTALL_PREFIX ?= /usr/local/
 
 #
 VERSION_MAJOR = 1
@@ -45,10 +45,10 @@ uninstall: uninstall-handy-utils uninstall-cross-toolchain uninstall-fast-c-cxx 
 include $(MAKEFILE_DIR)/makefile.package.mk
 
 #
-package: package-bin
+package: package-kit
 
 #
-clean-package: clean-package-bin
+clean-package: clean-package-kit
 
 #
 help:
